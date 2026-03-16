@@ -1,0 +1,45 @@
+<div class="sidebar_mobile_wrapper">
+    <div class="sidebar_mobile">
+        <span class='text'>{{ 'general.sidebar.title' | t }}:</span>
+        <svg class="icon"><use xlink:href="#icon-sidebar" /></svg>
+    </div>
+</div>
+
+{% paginate blog.articles by 6 %}
+
+	<div class="portfolio_gallery">
+      <div class="items">
+        {% for article in blog.articles %}
+             {% render 'featured-blog-item-3' with article as article %}
+        {% endfor %}
+      </div>
+	</div>
+
+    {% if paginate.pages > 1 %}
+        <div class="pagination-wrapper text-center">
+            {% render 'pagination', paginate: paginate %}
+        </div>
+    {% endif %}
+
+{% endpaginate %}
+
+{% schema %}
+{
+    "name": "Blog Content",
+    "class": "page-content",
+    "settings": [
+        {
+            "type": "checkbox",
+            "id": "blog_show_date",
+            "label": "Show date",
+            "default": true
+        },
+        {
+            "type": "checkbox",
+            "id": "blog_show_author",
+            "label": "Show author",
+            "default": true
+        }
+    ]
+}
+{% endschema %}

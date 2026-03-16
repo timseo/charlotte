@@ -1,0 +1,54 @@
+{{ 'cc-fullscreen-menu.css' | asset_url | stylesheet_tag }}
+{% assign second_menu = section.settings.main_linklist_second_fullmenu %}
+
+<div class="menu" id="fullscreen-menu-container">
+  <span class="btn-close">&times;</span>
+
+  <div class="image-container">
+    {% for link in linklists[mainmenu].links %}
+      {% if link.handle != 'home' %}
+      {% assign image_url_link = link.handle | append: '.jpg' %}
+      <img
+        class="{% if forloop.index == 2 %}is-active{% endif %}"
+        src="{{ image_url_link | asset_url }}"
+        data-link="{{ link.handle }}"
+        alt="Fullscreen menu image"
+      >
+      {% endif %}
+    {% endfor %}
+
+    {% if second_menu != blank %}
+      {% for link in linklists[second_menu].links %}
+        {% assign image_url_link = link.handle | append: '.jpg' %}
+        <img src="{{ image_url_link | asset_url }}" data-link="{{ link.handle }}" alt="Fullscreen menu image">
+      {% endfor %}
+    {% endif %}
+  </div>
+
+  <div class="links-container">
+    <ul class="list-links">
+      {% for link in linklists[mainmenu].links %}
+        {% if link.handle != 'home' %}
+        <li data-link="{{ link.handle }}">
+          <a href="{{ link.url }}">
+            {{ link.title }}
+          </a>
+        </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+
+    {% if second_menu != blank %}
+      <ul class="list-links second-menu">
+        {% for link in linklists[second_menu].links %}
+          <li data-link="{{ link.handle }}">
+            <a href="{{ link.url }}">
+              {{ link.title }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+</div>
+

@@ -1,0 +1,163 @@
+<div class="cc-about-section{% if section.settings.custom_class != blank %} {{ section.settings.custom_class }}{% endif %}">
+
+  {% if section.settings.title != blank %}
+    <div class="cc-about-header">
+      <h1 class="cc-about-title">
+        {{ section.settings.title }}
+      </h1>
+    </div>
+  {% endif %}
+
+  <div class="halo-column column-4">
+    {% for block in section.blocks %}
+      {% case block.type %}
+
+        {% when 'spacer' %}
+          <div class="halo-column__item text-center">
+            <br>
+          </div>
+
+        {% when 'image' %}
+          <div class="halo-column__item" {{ block.shopify_attributes }}>
+            {% if block.settings.image != blank %}
+              <img
+                src="{{ block.settings.image | image_url: width: 1400 }}"
+                alt="{{ block.settings.image.alt | escape }}"
+                loading="lazy"
+              >
+            {% endif %}
+          </div>
+
+        {% when 'text' %}
+          <div class="halo-column__item cc-about-column" {{ block.shopify_attributes }}>
+
+            {% if block.settings.heading != blank %}
+              <h1 class="cc-about-top-h1">{{ block.settings.heading }}</h1>
+            {% endif %}
+
+            {{ block.settings.text }}
+          </div>
+
+      {% endcase %}
+    {% endfor %}
+  </div>
+
+</div>
+
+<style>
+.cc-about-header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.halo-column{
+margin-bottom: 50px;
+}
+
+.cc-about-title {
+  text-transform: uppercase;
+  letter-spacing: .2rem;
+  font-weight: 400;
+  font-size: 20px;
+}
+
+.cc-about-top-h1 {
+  font-family: athena, Geneva, Tahoma, Verdana, sans-serif;
+  font-weight: 400;
+  font-size: 28px;
+  margin-bottom: 1.2rem;
+  color: #a1968e;
+}
+
+/* Rich text styles */
+.cc-about-column h2 {
+  font-family: Montserrat, sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  color: #656565;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.cc-about-column p {
+  font-family: Montserrat, sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+  color: #656565;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+b, strong {
+  font-weight: 500;
+}
+
+</style>
+
+{% schema %}
+{
+  "name": "CC About Section",
+  "tag": "section",
+  "class": "cc-about-section-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section title",
+      "default": "Place Prints with Confidence"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom section class"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "spacer",
+      "name": "Spacer"
+    },
+    {
+      "type": "image",
+      "name": "About Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "About Text",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Top H1 above text",
+          "default": "A room-by-room guide"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text content",
+          "default": "<h2>A room-by-room guide to choosing where art truly belongs</h2><p>Choosing art is personal — but knowing where to place it can feel surprisingly tricky.</p><p>This free guide is designed to help you feel confident hanging, styling, and living with art you love — whether you’re starting with a print in hand or a wall that feels unfinished.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "CC About Section",
+      "blocks": [
+        { "type": "spacer" },
+        { "type": "image" },
+        { "type": "text" },
+        { "type": "spacer" }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,164 @@
+
+.collection-grid-item {
+    position: relative;
+}
+
+.collection-grid-item__content {
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+    z-index: 3;
+    position: absolute;
+}
+
+.collection-grid-item__title-wrapper {
+    padding: 15px;
+    background-color: rgba(255,255,255,0.95);
+}
+
+.collection-grid-item__title {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 0 3px 0;
+    text-transform: capitalize;
+}
+
+.collection-grid-item__product {
+    margin: 0;
+    font-weight: 400;
+}
+
+.collection-grid-item__button .btn {
+    width: 100%;
+}
+
+.collection-grid-item__link {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    position: absolute;
+    vertical-align: top;
+    display: inline-block;
+}
+
+.collection-grid-item__overlay {
+    display: block;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+}
+
+.collection-grid-item__overlay .icon {
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    opacity: 0;
+    z-index: 5;
+    color: #ffffff;
+    fill: #ffffff;
+    visibility: hidden;
+    position: absolute;
+    transition: all 0.6s ease;
+    transform: translate(-50%, -50%);
+}
+
+.collection-grid-item__overlay .placeholder-svg {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    height: 100%;
+    width: auto;
+    position: absolute;
+}
+
+
+@media (min-width: 1025px) {
+    .page-collectionList {
+        padding-top: 50px;
+    }
+
+    .collection-grid-item__content {
+        left: 30px;
+        right: 30px;
+        bottom: 30px;
+    }
+
+    .collection-grid-item__title-wrapper {
+        padding: 22px 30px 20px 20px;
+    }
+
+    .collection-grid-item__title {
+        font-size: 20px;
+    }
+
+    .collection-grid-item__button {
+        height: 0;
+        overflow: hidden;
+        transition: height 0.3s ease;
+    }
+
+    .collection-grid-item__overlay {
+        overflow: hidden;
+    }
+
+    .collection-grid-item:hover .collection-grid-item__overlay .icon {
+        opacity: 1;
+        overflow: visible;
+    }
+
+    .collection-grid-item:hover .collection-grid-item__button {
+        height: 44px;
+        visibility: visible;
+    }
+
+    [data-section-type="collections-products"] .halo-row {
+        padding: 0;
+    }
+
+    [data-section-type="collections-products"] .slick-prev {
+        left: 15px;
+    }
+
+    [data-section-type="collections-products"] .slick-next {
+        right: 15px;
+    }
+}
+
+@media (min-width: 1280px) {
+
+    [data-section-type="collections-products"] .halo-row,
+    [data-section-type="collections-products"] .halo-column {
+        padding-left: 90px;
+        padding-right: 90px;
+    }
+
+    [data-section-type="collections-products"] .slick-prev {
+        left: 30px;
+    }
+
+    [data-section-type="collections-products"] .slick-next {
+        right: 30px;
+    }
+}
+
+@media (min-width: 1600px) {
+
+    [data-section-type="collections-products"] .halo-row,
+    [data-section-type="collections-products"] .halo-column {
+        padding-left: 140px;
+        padding-right: 140px;
+    }
+
+    [data-section-type="collections-products"] .slick-prev {
+        left: 60px;
+    }
+
+    [data-section-type="collections-products"] .slick-next {
+        right: 60px;
+    }
+}

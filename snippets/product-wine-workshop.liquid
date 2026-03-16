@@ -1,0 +1,23 @@
+{% if settings.breadcrumb_layout == 'top' %}
+    {% render 'breadcrumb', breadcrumb_top: true %}
+{% endif %}
+<div class="page page-productDetail wine-workshop">
+    <div class="container">
+        {% section 'product-template-wine-design' %}
+    </div>
+</div>
+{% if settings.enable_ask_an_expert %}
+	{% render 'ask-an-expert-popup' %}
+{% endif %}
+
+{% if settings.breadcrumb_layout == 'bottom' %}
+    {% render 'breadcrumb' %}
+{% endif %}
+
+<style>
+  @media (min-width: 1025px) {
+    .page.wine-workshop {
+      padding-bottom: 50px !important;
+    }
+  }  
+</style>

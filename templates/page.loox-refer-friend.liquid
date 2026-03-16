@@ -1,0 +1,18 @@
+{% if settings.breadcrumb_layout == 'top' %}
+    {% render 'breadcrumb', breadcrumb_top: true %}
+{% endif %}
+<div class="container">
+    <div class="page page-default">
+        <div class="section-header text-center">
+            <h1 class="title title--large">{{ page_title }}</h1>
+        </div>
+        <div class="rte">
+            {{ page.content }}
+        </div>
+    </div>
+</div>
+{% if settings.breadcrumb_layout == 'bottom' %}
+    {% render 'breadcrumb' %}
+{% endif %}
+
+{% section 'loox-referrals-entry-widget' %}

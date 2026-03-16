@@ -1,0 +1,272 @@
+<style>
+
+
+  .container-r {
+    width: 100%;
+    max-width: 1620px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    overflow-x: auto;
+    padding-bottom: 32px;
+  }
+  .container-r .row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    justify-content: center;
+  }
+  .container-r .block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: bold;
+    position: relative;
+    box-sizing: border-box;
+  }
+  /* Scaled Sizes */
+  .container-r .block1 {
+    width: 100%;
+    height: 400px;
+    margin: 0 auto 16px;
+  }
+  .container-r .block img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+.container-r .row{
+  display:flex;
+  gap:20px;
+  padding: 0px 35px;
+}
+.container-r .row img{
+  width:100%;
+}
+.container-r .row:nth-child(2)>div:nth-child(1){
+  width: calc(35.3% - 10px);
+}
+.container-r .row:nth-child(2)>div:nth-child(2){
+  width: calc(64.7% - 10px);
+}
+.container-r .block1{
+  margin-bottom: 20px !important;
+  height: auto;
+}
+.container-r .row:nth-child(3)>div:nth-child(1){
+  width: calc(56.74% - 10px);
+}
+.container-r .row:nth-child(3)>div:nth-child(2){
+  width: calc(43.26% - 10px);
+}
+
+.container-r .row:nth-child(4)>div:nth-child(1){
+  width: calc(42.7% - 10px);
+}
+.container-r .row:nth-child(4)>div:nth-child(2){
+  width: calc(57.3% - 10px);
+}
+.container-r .row:nth-child(5)>div:nth-child(1){
+  width: calc(57.3% - 10px);
+}
+.container-r .row:nth-child(5)>div:nth-child(2){
+  width: calc(42.7% - 10px);
+}
+
+ @media (max-width:767px){
+   .container-r{
+     padding: 0px 15px;
+   }
+   .container-r .row{
+     padding: 0px ;
+   }
+  .container-r .row>div{
+    width: 100% !important;
+  }
+   .container-r .block1,
+   .container-r .block12{
+     margin:0 -15px 20px;
+     width: calc(100% + 30px);
+   }
+}
+</style>
+
+
+<div class="container-r">
+  <!-- Block 1 -->
+  <div class="block block1" style="margin-bottom:16px;">
+    {% if section.settings.block1_img %}
+      <img src="{{ section.settings.block1_img | image_url }}" alt="Block 1 Image">
+    {% endif %}
+  </div>
+  <!-- Row 2: 2, 4 -->
+  <div class="row">
+    <div style="display:flex; flex-direction:column; gap:20px;">
+      <div class="block block2">
+        {% if section.settings.block2_img %}
+          <img src="{{ section.settings.block2_img | image_url }}" alt="Block 2 Image">
+        {% endif %}
+      </div>
+      <div class="block block3">
+        {% if section.settings.block3_img %}
+          <img src="{{ section.settings.block3_img | image_url  }}" alt="Block 3 Image">
+        {% endif %}
+      </div>
+    </div>
+    <div class="block block4">
+      {% if section.settings.block4_img %}
+        <img src="{{ section.settings.block4_img | image_url }}" alt="Block 4 Image">
+      {% endif %}
+    </div>
+  </div>
+  <!-- Row 3: 5, 6, 7 -->
+  <div class="row">
+    <div class="block block5">
+      {% if section.settings.block5_img %}
+        <img src="{{ section.settings.block5_img | image_url }}" alt="Block 5 Image">
+      {% endif %}
+    </div>
+    <div style="display:flex; flex-direction:column; gap:20px;">
+      <div class="block block6">
+        {% if section.settings.block6_img %}
+          <img src="{{ section.settings.block6_img | image_url }}" alt="Block 6 Image">
+        {% endif %}
+      </div>
+      <div class="block block7">
+        {% if section.settings.block7_img %}
+          <img src="{{ section.settings.block7_img | image_url }}" alt="Block 7 Image">
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <!-- Row 4: 8, 9 -->
+  <div class="row">
+    <div class="block block8">
+      {% if section.settings.block8_img %}
+        <img src="{{ section.settings.block8_img | image_url }}" alt="Block 8 Image">
+      {% endif %}
+    </div>
+    <div class="block block9">
+      {% if section.settings.block9_img %}
+        <img src="{{ section.settings.block9_img | image_url }}" alt="Block 9 Image">
+      {% endif %}
+    </div>
+  </div>
+  <!-- Row 5: 10, 11 -->
+  <div class="row">
+    <div class="block block10">
+      {% if section.settings.block10_img %}
+        <img src="{{ section.settings.block10_img | image_url }}" alt="Block 10 Image">
+      {% endif %}
+    </div>
+    <div class="block block11">
+      {% if section.settings.block11_img %}
+        <img src="{{ section.settings.block11_img | image_url }}" alt="Block 11 Image">
+      {% endif %}
+    </div>
+  </div>
+  <!-- Row 6: 12, 13 -->
+  <div class="row">
+    <div class="block block10">
+      {% if section.settings.block12_img %}
+        <img src="{{ section.settings.block12_img | image_url }}" alt="Block 12 Image">
+      {% endif %}
+    </div>
+    <div class="block block11">
+      {% if section.settings.block13_img %}
+        <img src="{{ section.settings.block13_img | image_url }}" alt="Block 13 Image">
+      {% endif %}
+    </div>
+  </div>
+  <!-- Block 14 -->
+  <div class="block block12">
+    {% if section.settings.block14_img %}
+      <img src="{{ section.settings.block14_img | image_url }}" alt="Block 14 Image">
+    {% endif %}
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Custom Image Grid",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "block1_img",
+        "label": "Block 1 Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "block2_img",
+        "label": "Block 2 Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "block3_img",
+        "label": "Block 3 Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "block4_img",
+        "label": "Block 4 Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "block5_img",
+        "label": "Block 5 Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "block6_img",
+        "label": "Block 6 Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "block7_img",
+        "label": "Block 7 Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "block8_img",
+        "label": "Block 8 Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "block9_img",
+        "label": "Block 9 Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "block10_img",
+        "label": "Block 10 Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "block11_img",
+        "label": "Block 11 Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "block12_img",
+        "label": "Block 12 Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "block13_img",
+        "label": "Block 13 Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "block14_img",
+        "label": "Block 14 Image"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Custom Image Grid"
+      }
+    ]
+  }
+{% endschema %}

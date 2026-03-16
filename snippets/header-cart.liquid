@@ -1,0 +1,11 @@
+{% if pagename == 'cart' %}
+    <a class="navUser-action" href="{{ routes.cart_url }}" aria-label="cart" data-cart-pc>
+        <svg class="icon"><use xlink:href="#icon-cart" /></svg>
+        <span class="countPill cart-quantity" data-cart-count>{{ cart.item_count }}</span>
+    </a>
+{% else %}
+    <a class="navUser-action" href="javascript:void(0)" aria-label="link" data-cart-pc>
+        <svg class="icon"><use xlink:href="#icon-cart" /></svg>
+        <span class="countPill cart-quantity" data-cart-count>{{ cart.item_count }}</span>
+    </a>
+{% endif %}

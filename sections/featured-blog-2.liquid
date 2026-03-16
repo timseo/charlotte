@@ -1,0 +1,228 @@
+{% if section.settings.background-color %}
+    {% assign background_color = 'halo-section-background-gray' %}
+{% endif %}
+
+{% if section.settings.border-top %}
+    {% assign border_top = 'halo-section-border-top' %}
+{% endif %}
+
+{% if section.settings.border-bottom %}
+    {% assign border_bottom = 'halo-section-border-bottom' %}
+{% endif %}
+
+{% assign top = top | default: section.settings.top %}
+{% assign bottom = bottom | default: section.settings.bottom %}
+
+
+{% if section.settings.custom_color %}
+<style>
+    [data-section-id='{{ section.id }}'] .section-header .title {
+        color: {{ section.settings.color_heading }}
+    }
+
+    [data-section-id='{{ section.id }}'] .section-header > p {
+        color: {{ section.settings.color_text }}
+    }
+
+    [data-section-id='{{ section.id }}'] .section-header .btn {
+        color: {{ section.settings.color_btn_text }};
+        border-color: {{ section.settings.color_btn_border }};
+        background-color: {{ section.settings.color_btn_bg }};
+    }
+
+    [data-section-id='{{ section.id }}'] .section-header .btn:hover {
+        filter: brightness(85%);
+    }
+</style>
+{% endif %}
+
+<div class="halo-section padding-top-{{ top }} padding-bottom-{{ bottom }} {{ background_color }} {{ border_top }} {{ border_bottom }}" data-section-id="{{ section.id }}" data-section-type="featured-blog-2">
+    <div class="container">
+        {% if section.settings.title != blank %}
+            <div class="section-header text-center">
+                <h2 class="title">{{ section.settings.title }}</h2>
+                {% if section.settings.description != blank %}
+                    <p>{{ section.settings.description }}</p>
+                {% endif %}
+                {% if section.settings.button != blank %}
+                    <a href="{{ section.settings.button_link }}" class="btn btn--primary" aria-label="link">
+                        {{ section.settings.button }}
+                    </a>
+                {% endif %}
+            </div>
+        {% endif %}
+        {% assign blog = blogs[section.settings.blog] %}
+        {% unless blog.articles_count == 0 %}
+            <div class="featured-blog-layout-custom">
+                <div class="featured-blog-layout-custom__item">
+                    {% for article in blog.articles %}
+                        {% if forloop.first == true %}
+                            {% render 'featured-blog-item-2', article: article, layout: 'layout1' %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="featured-blog-layout-custom__item">
+                    {% for article in blog.articles limit: section.settings.post_limit %}
+                        {% if forloop.first != true %}
+                            {% render 'featured-blog-item-2', article: article, layout: 'layout2' %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if blog.articles_count > section.settings.post_limit %}
+                        <div class="featured-blog-viewAll">{{ 'blogs.article.view_all_blogs' | t | link_to: blog.url }}</div>
+                    {% endif %}
+                </div>
+            </div>
+        {% else %}
+        {% endunless %}
+    </div>
+</div>
+
+{% schema %}
+{
+    "name": "Blog posts 2",
+    "settings": [
+        {
+            "type": "header",
+            "content": "Section Layout"
+        },
+        {
+            "type": "checkbox",
+            "id": "background-color",
+            "label": "Background Color Custom",
+            "default": false
+        },
+        {
+            "type": "checkbox",
+            "id": "border-top",
+            "label": "show border top",
+            "default": false
+        },
+        {
+            "type": "checkbox",
+            "id": "border-bottom",
+            "label": "show border bottom",
+            "default": false
+        },
+        {
+            "type": "range",
+            "id": "top",
+            "label": "Spacing Top",
+            "default": 30,
+            "min": 0,
+            "max": 100,
+            "step": 10,
+            "unit": "px"
+        },
+        {
+            "type": "range",
+            "id": "bottom",
+            "label": "Spacing bottom",
+            "default": 30,
+            "min": 0,
+            "max": 100,
+            "step": 10,
+            "unit": "px"
+        },
+        {
+            "type": "header",
+            "content": "Heading Section"
+        },
+        {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "Featured Blog"
+        },
+        {
+            "type": "textarea",
+            "id": "description",
+            "label": "Description"
+        },
+        {
+            "type": "text",
+            "id": "button",
+            "label": "Button"
+        },
+        {
+            "type": "url",
+            "id": "button_link",
+            "label": "Button link"
+        },
+        {
+            "type": "header",
+            "content": "Blog style"
+        },
+        {
+            "type": "blog",
+            "id": "blog",
+            "label": "Blog"
+        },
+        {
+            "type": "range",
+            "id": "post_limit",
+            "label": "Posts limit",
+            "min": 2,
+            "max": 12,
+            "step": 1,
+            "default": 3
+        },
+        {
+            "type": "checkbox",
+            "id": "blog_show_author",
+            "label": "Show author",
+            "default": true
+        },
+        {
+            "type": "checkbox",
+            "id": "blog_show_date",
+            "label": "Show date",
+            "default": true
+        },
+        {
+            "type": "header",
+            "content": "Custom Color"
+        },
+        {
+            "type": "checkbox",
+            "id": "custom_color",
+            "label": "Turn on custom color",
+            "default": false
+        },
+        {
+            "type": "color",
+            "id": "color_heading",
+            "label": "Heading Color"
+        },
+        {
+            "type": "color",
+            "id": "color_text",
+            "label": "Description Color"
+        },
+        {
+            "type": "color",
+            "id": "color_btn_text",
+            "label": "Button Color"
+        },
+        {
+            "type": "color",
+            "id": "color_btn_border",
+            "label": "Button Border Color"
+        },
+        {
+            "type": "color",
+            "id": "color_btn_bg",
+            "label": "Button Background Color"
+        }
+    ],
+    "presets": [
+        {
+            "name": "Blog posts 2",
+            "category": "Blog",
+            "settings": {
+                "blog": "News",
+                "post_limit": 3
+            }
+        }
+    ]
+}
+{% endschema %}

@@ -1,0 +1,57 @@
+{% unless product.has_only_default_variant %}
+    {% for option in product.options_with_values %}
+        {% assign option_name = option.name | downcase %}
+        {% assign option_color_swatch = settings.option_color_swatch | downcase %}
+        {% if settings.option_swatch %}
+            {% if option_color_swatch contains option_name %}
+                {% render 'swatch-element-color-product-page', forloop: forloop, option: option  %}
+            {% elsif option_name == 'choose mount' %}
+                {% render 'swatch-element-mount-product-page', forloop: forloop, option: option  %}
+            {% else %}
+                {% render 'swatch-element-size-product-page', forloop: forloop, option: option  %}
+            {% endif %}
+        {% else %}
+            <div class="selector-wrapper selector-wrapper-{{forloop.index}} selector js product-form__item{% if option_color_swatch contains option_name %} color{% endif %}" data-option-index={{forloop.index}}>
+                <label for="SingleOptionSelector-{{ forloop.index0 }}" class="form-label {% if option.name == 'default' %}label--hidden{% endif %}">
+                    {{ option.name }}: <span class="label-value-{{ forloop.index }}"{% if option_color_swatch contains option_name %}{% if changeImageGroup %} data-filter=".filter-{{ option.selected_value | handle }}"{% endif %}{% endif %}>{{ option.selected_value }}</span>
+                </label>
+                <select class="single-option-selector single-option-selector-{{ section.id }} product-form__input form-control" id="SingleOptionSelector-{{ forloop.index0 }}" data-index="option{{ forloop.index }}">
+                    {% assign option_index0 = forloop.index0 %}
+                    {% assign option_index = forloop.index %}
+                    {% assign values = '' %}
+                    
+                    {% for variant in product.variants %}
+                        {% assign value = variant.options[option_index0] %}
+                        {% unless values contains value %}
+                            {% assign values = values | join: ';' %}
+                            {% assign values = values | append: ';' | append: value %}
+                            {% assign values = values | split: ';' %}
+                            {% if variant.available %}
+                                <option value="{{ value }}" {% if variant.image != blank %} data-image="{{ variant.image.src | product_img_url: 'compact' | split: '?' | first }}"{% endif %}{% if option.selected_value == value %} selected="selected"{% endif %}>{{ value }}</option>
+                            {% else %}
+                                <option value="{{ value }}" {% if variant.image != blank %} data-image="{{ variant.image.src | product_img_url: 'compact' | split: '?' | first }}"{% endif %} disabled="disabled">{{ value }}</option>
+                            {% endif %}
+                        {% endunless %}
+                    {% endfor %}
+                </select>
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endunless %}
+
+<select name="id" id="ProductSelect-{{ section.id }}" class="product-form__variants no-js">
+    {% for variant in product.variants %}
+        {% if variant.available %}
+            <option 
+              {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} 
+              value="{{ variant.id }}" 
+              data-price="{{ variant.price }}"
+              {%if variant.metafields.custom.variant_size_description != blank %} data-description="{{ variant.metafields.custom.variant_size_description }}" {% endif %}
+              >
+                {{ variant.title }}
+            </option>
+        {% else %}
+            <option disabled="disabled">{{ variant.title }} - {{ 'products.product.sold_out' | t }}</option>
+        {% endif %}
+    {% endfor %}
+</select>

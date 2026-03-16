@@ -1,0 +1,34 @@
+{% if settings.breadcrumb_layout == 'top' %}
+    {% render 'breadcrumb', breadcrumb_top: true %}
+{% endif %}
+<div class="page page-productDetail">
+    <div class="container">
+        {% section 'product-template-bundle2' %}
+      
+      	{% section 'product-slider-2' %}
+      
+        <div class="product-tab-container">
+            <div class="product-tab__item">
+                {% section 'product-tab-horizontal-bundle-2' %}
+            </div>
+            <div class="product-tab__item">
+                {% section 'product-add-more-bundle-2' %}
+            </div>
+        </div>
+      		
+      	<div id="looxReviews" data-product-id="{{product.id}}" class="loox-reviews-default">{{ product.metafields.loox.reviews }}</div>
+
+        {% section 'product-recommendations-bundle' %}
+
+        {% section 'recently-viewed-products-bundle' %}
+      
+
+    </div>
+</div>
+{% if settings.enable_ask_an_expert %}
+	{% render 'ask-an-expert-popup' %}
+{% endif %}
+
+{% if settings.breadcrumb_layout == 'bottom' %}
+    {% render 'breadcrumb' %}
+{% endif %}

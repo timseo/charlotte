@@ -1,0 +1,57 @@
+{% if section.settings.enable_bannerImage %}
+    {% for block in section.blocks %}
+        {% assign collection_id = collections[block.settings.collection_id] %}
+        {% if collection_id.handle == collection.handle %}
+            {% if block.settings.image != blank %}
+                <div class="collection-hero">
+                    <div class="collection-hero__image">
+                        <img class="lazyload" data-src="{{ block.settings.image | img_url: 'master' }}" alt="" data-image>
+                    </div>
+                </div>
+            {% else %}
+                <div class="collection-hero">
+                    <div class="collection-hero__image">
+                        <span class="recommended_size">1920x300</span>
+                        {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+                    </div>
+                </div>
+            {% endif%}
+        {% endif%}
+    {% endfor %}
+{% endif%}
+
+{% schema %}
+{
+    "name": "Collection Banners",
+    "settings": [
+        {
+            "type": "header",
+            "content": "Banner Image"
+        },
+        {
+            "type": "checkbox",
+            "id": "enable_bannerImage",
+            "label": "Enable Banner Image",
+            "default": false
+        }
+    ],
+    "blocks": [
+        {
+            "type": "collection",
+            "name": "Collection",
+            "settings": [
+                {
+                    "type": "image_picker",
+                    "id": "image",
+                    "label": "Image"
+                },
+                {
+                    "label": "Collection",
+                    "id": "collection_id",
+                    "type": "collection"
+                }
+            ]
+        }
+    ]
+}
+{% endschema %}

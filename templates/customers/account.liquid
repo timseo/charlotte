@@ -1,0 +1,67 @@
+{% if settings.breadcrumb_layout == 'top' %}
+    {% render 'breadcrumb', breadcrumb_top: true %}
+{% endif %}
+<div class="container">
+    <div class="page page-login">
+        <div class="section-header text-left">
+            <h2 class="title title--large">
+                {{ 'customer.account.title' | t }}
+            </h2>
+            {% if customer %}
+                <a class="btn btn--tertiary" id="customer_logout_link" href="{{ routes.account_logout_url }}">{{ 'layout.customer.log_out' | t }}</a>
+            {% endif %}
+        </div>
+        <div class="mb-5">
+            <h3 class="loginTitle loginTitle--border">{{ 'customer.orders.title' | t }}</h3>
+            {% paginate customer.orders by 20 %}
+                {% if customer.orders.size != 0 %}
+                    <table class="responsive-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">{{ 'customer.orders.order_number' | t }}</th>
+                                <th scope="col">{{ 'customer.orders.date' | t }}</th>
+                                <th scope="col">{{ 'customer.orders.payment_status' | t }}</th>
+                                <th scope="col">{{ 'customer.orders.fulfillment_status' | t }}</th>
+                                <th scope="col">{{ 'customer.orders.total' | t }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in customer.orders %}
+                                <tr>
+                                    <th data-label="{{ 'customer.orders.order_number' | t }}" scope="row">
+                                        <a href="{{ order.customer_url }}" class="btn btn--tertiary" aria-label="{{ 'customer.orders.order_number_link' | t: number: order.name }}">{{ order.name }}</a>
+                                    </th>
+                                    <td data-label="{{ 'customer.orders.date' | t }}">{{ order.created_at | time_tag: format: 'date' }}</td>
+                                    <td data-label="{{ 'customer.orders.payment_status' | t }}">{{ order.financial_status_label }}</td>
+                                    <td data-label="{{ 'customer.orders.fulfillment_status' | t }}">{{ order.fulfillment_status_label }}</td>
+                                    <td data-label="{{ 'customer.orders.total' | t }}">{{ order.total_price | money }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="form-message form-message--warning alert alert-warning text-center">
+                        <p>{{ 'customer.orders.none' | t }}</p>
+                    </div>
+                {% endif %}
+                {% if paginate.pages > 1 %}
+                    {% render 'pagination', paginate: paginate %}
+                {% endif %}
+            {% endpaginate %}
+        </div>
+        <div>
+            {% if customer.default_address != blank %}
+                <h3 class="loginTitle loginTitle--border">{{ 'customer.account.details' | t }}</h3>
+                {{ customer.default_address | format_address }}
+            {% else %}
+                <h3 class="loginTitle mb-4">{{ 'customer.account.details' | t }}</h3>
+            {% endif %}
+            <div class="button-group button-group--two">
+                <a href="{{ routes.account_addresses_url }}" class="btn btn--primary btn--big"><span>{{ 'customer.account.view_addresses' | t }}</span> ({{ customer.addresses_count }})</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% if settings.breadcrumb_layout == 'bottom' %}
+    {% render 'breadcrumb' %}
+{% endif %}

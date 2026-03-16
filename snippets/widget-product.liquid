@@ -1,0 +1,16 @@
+<div class="sidebarBlock">
+    {% if block.settings.title != blank %}
+    <h3 class="sidebarBlock__heading">{{ block.settings.title }}</h3>
+    {% endif %}
+    <div class="sidebarBlock__content">
+        {% if block.settings.collection != blank %}
+            <div class="widget-column column-1">
+                {% for product in collections[block.settings.collection].products limit : block.settings.number %}
+                <div class="widget-column__item">
+                    {% render 'product-card-grid-2', product: product, serial: forloop.index %}
+                </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</div>

@@ -1,0 +1,21 @@
+
+{% assign show_product_wishlist = show_product_wishlist | default: settings.show_product_wishlist %}
+{% assign show_product_quickview = show_product_quickview | default: settings.show_product_quickview %}
+
+<div class="product-card text-left">
+    <div class="product-card__image">
+        <a class="product-card__link" href="{{ img_url }}" data-fancybox="images-gallery">
+            <img class="product-card__img lazyload"
+                data-srcset="{{ img_url }} 1025w"
+                data-sizes="auto" alt="" data-image>
+        </a>
+    </div>
+    <div class="product-card__content--wrapper">
+        <div class="product-card__content">
+            <h4 class="product-card__title">
+              {{ title }}
+            </h4>  
+          <p>{{ description }}</p>
+        </div>
+    </div>
+</div>

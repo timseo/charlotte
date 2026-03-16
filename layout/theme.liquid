@@ -1,0 +1,183 @@
+<!doctype html>
+<html class="no-js" lang="{{ shop.locale }}">
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PJDQJVH0LQ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-PJDQJVH0LQ');
+    </script>
+  <script>
+    if (window.location.href === "https://charlottelea.com/pages/about") {
+  const style = document.createElement("style");
+  style.textContent = `
+    h1.title.title--large {
+      padding-top: 2em;
+      text-align: center;
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+  </script>
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="{{ settings.color_button }}">
+    <meta name="Description" content="Welcome to Charlotte Lea Photography. I specialize in interiors and interior-related branding photography for clients across the U.S. You can learn more about me here.">
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    {%- if settings.favicon != blank -%}
+        <link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
+    {%- endif -%}
+
+    {%- capture seo_title -%}
+        {%- if request.page_type == 'search' and search.performed == true -%}
+            {{ 'general.search.heading' | t: count: search.results_count }}: {{ 'general.search.results_with_count' | t: terms: search.terms, count: search.results_count }}
+        {%- else -%}
+            {{ page_title }}
+        {%- endif -%}
+        {%- if current_tags -%}
+            {%- assign meta_tags = current_tags | join: ', ' -%} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags -}}
+        {%- endif -%}
+        {%- if current_page != 1 -%}
+            &ndash; {{ 'general.meta.page' | t: page: current_page }}
+        {%- endif -%}
+        {%- assign escaped_page_title = page_title | escape -%}
+        {%- unless escaped_page_title contains shop.name -%}
+            &ndash; {{ shop.name }}
+        {%- endunless -%}
+    {%- endcapture -%}
+    <title>{{ seo_title | strip }}</title>
+
+    {%- if page_description -%}
+        <meta name="description" content="{{ page_description | escape }}">
+    {%- endif -%}
+
+    {% render 'social-meta-tags' %}
+
+    {% render 'head-script' %}
+
+    {{ content_for_header }}
+
+  
+	{{ shop.metafields.loox["global_html_head"] }}
+</head>
+
+<body id="{{ page_title | handle }}" class="template-{{ request.page_type | handle }} {{ settings.body_layout }}">
+    <svg data-src="{{ 'icon-belle-dolls.svg' | asset_url }}" class="icons-svg-sprite"></svg>
+
+    {% section 'header' %}
+
+    <div class="page-container" id="PageContainer">
+        <main class="main-content js-focus-hidden" id="MainContent" role="main" tabindex="-1">
+            {{ content_for_layout }}
+            <div class="clearfix"></div>
+        </main>
+    </div>
+    
+    {% section 'footer' %}
+
+    {% render 'modal-popup' %}
+
+    <script src="{{ 'vendor.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'lazysizes.js' | asset_url }}" async="async"></script>
+    <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
+  
+
+    {% render 'recently-viewed-product-popup'%}
+
+    {% if settings.enable_language %}
+        {% render 'language-converter' %}
+    {% endif %}
+
+    {% render 'new-currency' %}
+
+ 
+    <script src="{{ 'masonry.pkgd.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'imagesloaded.pkgd.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'custom-gallery.js' | asset_url }}" defer="defer"></script>
+
+	{{ shop.metafields.loox["global_html_body"] }}
+   <script>
+      $("body").on("contextmenu", "img", function(e) {
+        return false;
+      });
+  	</script>
+  <script>
+  
+  $(document).ready(function () {
+    $('#fullscreen-menu-container .btn-close').click(function () {
+      $('#fullscreen-menu-container.menu').toggleClass('active');
+    });
+
+    $('#btn-open-fullmenu.menu-btn').click(function () {
+      $('#fullscreen-menu-container.menu').toggleClass('active');
+      $('#navigation-mobile .close_menu').trigger('click');
+    });
+
+    $('#fullscreen-menu-container .list-links li').on('mouseenter', function () {
+      const linkHandle = $(this).data('link');
+      $('#fullscreen-menu-container .image-container img').removeClass('is-active');
+      $(`#fullscreen-menu-container .image-container img[data-link="${linkHandle}"]`).addClass('is-active');
+    });
+
+  });
+
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Check if we are on the correct page
+    if (window.location.pathname === "/pages/about") {
+      // Find the target div
+      const targetDiv = document.querySelector(".row.justify-content-between");
+
+      if (targetDiv) {
+        // Create the new h1 element
+        const newHeading = document.createElement("h1");
+        newHeading.className = "title title--large";
+        newHeading.textContent = "contact";
+
+        // Apply left alignment
+        newHeading.style.textAlign = "left";
+
+        // Insert it before the target div
+        targetDiv.parentNode.insertBefore(newHeading, targetDiv);
+      }
+    }
+  });
+</script>
+
+<script>
+  let lastScrollTop = 0;
+  const header = document.querySelector('.site-header');
+  const parent = header.parentElement;
+  const headerHeight = header.offsetHeight;
+
+  window.addEventListener('scroll', function () {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+    if (scrollTop < lastScrollTop && scrollTop > headerHeight) {
+      // scrolling UP
+      header.classList.add('header-sticky');
+      header.classList.add('is-sticky');
+      parent.style.paddingBottom = headerHeight + 'px';
+    } else {
+      // scrolling DOWN
+      header.classList.remove('is-sticky');
+      header.classList.remove('header-sticky');
+      parent.style.paddingBottom = '0px';
+    }
+
+    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+  });
+</script>
+
+
+
+</body>
+</html>

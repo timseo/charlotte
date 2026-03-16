@@ -1,0 +1,28 @@
+{% if shop.metafields.loox["global_stats"] %}
+{% assign looxstats = shop.metafields.loox["global_stats"] | split: "," %}
+<div itemscope itemtype="https://schema.org/Product">
+<meta itemprop="name" content="{{ shop.name | escape }}"/>
+<div itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
+<meta itemprop="ratingValue" content="{{ looxstats[0] }}"/>
+<meta itemprop="ratingCount" content="{{ looxstats[1] }}"/>
+</div>
+</div>
+{% endif %}
+{% if settings.breadcrumb_layout == 'top' %}
+    {% render 'breadcrumb', breadcrumb_top: true %}
+{% endif %}
+<div class="container">
+    <div class="page page-default">
+        <div class="section-header text-center">
+            <h1 class="title title--large">{{ page_title }}</h1>
+        </div>
+        <div class="rte">
+            {{ page.content }}
+        </div>
+    </div>
+</div>
+{% if settings.breadcrumb_layout == 'bottom' %}
+    {% render 'breadcrumb' %}
+{% endif %}
+
+<div id="looxReviews" data-loox-aggregate="" class="loox-reviews-default"></div>

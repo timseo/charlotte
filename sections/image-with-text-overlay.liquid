@@ -1,0 +1,331 @@
+{% if section.settings.background-color %}
+    {% assign background_color = 'halo-section-background-gray' %}
+{% endif %}
+
+{% if section.settings.border-top %}
+    {% assign border_top = 'halo-section-border-top' %}
+{% endif %}
+
+{% if section.settings.border-bottom %}
+    {% assign border_bottom = 'halo-section-border-bottom' %}
+{% endif %}
+
+{% assign top = top | default: section.settings.top %}
+{% assign bottom = bottom | default: section.settings.bottom %}
+
+{% if section.settings.custom_color %}
+<style>
+    [data-section-id='{{ section.id }}'] .section-header .title {
+        color: {{ section.settings.color_heading }};
+    }
+
+    [data-section-id='{{ section.id }}'] .section-header > p {
+        color: {{ section.settings.color_text }};
+    }
+
+    [data-section-id='{{ section.id }}'] .section-header .btn {
+        color: {{ section.settings.color_btn_text }};
+        border-color: {{ section.settings.color_btn_border }};
+        background-color: {{ section.settings.color_btn_bg }};
+    }
+
+    [data-section-id='{{ section.id }}'] .section-header .btn:hover {
+        filter: brightness(85%);
+    }
+</style>
+{% endif %}
+
+
+<div class="halo-section padding-top-{{ top }} padding-bottom-{{ bottom }} {{ background_color }} {{ border_top }} {{ border_bottom }}" data-section-id="{{ section.id }}" data-section-type="image-with-text-overlay">
+    <div class="container">
+        {% if section.settings.title != blank %}
+            <div class="section-header text-center">
+                <h2 class="title">{{ section.settings.title }}</h2>
+                {% if section.settings.description != blank %}
+                    <p>{{ section.settings.description }}</p>
+                {% endif %}
+                {% if section.settings.button != blank %}
+                    <a href="{{ section.settings.button_link }}" class="btn btn--primary" aria-label="link">
+                        {{ section.settings.button }}
+                    </a>
+                {% endif %}
+            </div>
+        {% endif %}
+        <div class="halo-column-image-with-text-overlay">
+            {% assign lenght = section.blocks.size | modulo:2 %}
+            <div class="halo-column-image-with-text-overlay__item">
+                {% for block in section.blocks %}
+                    {% assign img_url = block.settings.image | img_url: 'master' %}
+                    {% assign img_url_2 = block.settings.image | img_url: '300x' %}
+                    {% assign thecycle = forloop.index | modulo:2 %}
+                    {% if thecycle != 0 %}
+                        <div class="image-with-text-overlay image--hover overlay--{{ block.settings.overlay }} text-center">
+                            <div class="image-with-text-overlay__image">
+                                {% if block.settings.image != blank %}
+                                    <img class="lazyload"
+                                        data-srcset="{{ img_url_2 }} 180w, {{ img_url }} 768w"
+                                        data-sizes="auto" alt="" data-image>
+                                {% else %}
+                                    <span class="recommended_size">Free size</span>
+                                    {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                                {% endif %}
+                                {% if block.settings.link_url != blank %}
+                                    <a href="{{ block.settings.link_url }}" aria-label="link"></a>
+                                {% endif %}
+                            </div>
+                            <div class="image-with-text-overlay__content">
+                                {% if block.settings.title != blank %}
+                                    <h3 class="title">{{ block.settings.title }}</h3>
+                                {% endif %}
+                                {% if block.settings.link != blank %}
+                                    <a href="{{ block.settings.link_url }}" class="link" aria-label="link">{{ block.settings.link }}</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                {% if thecycle != 0 %}
+                    {% if section.settings.button2 != blank %}
+                    <div class="section-footer text-center">
+                        <a href="{{ section.settings.button_link2 }}" class="link" aria-label="link">
+                            {{ section.settings.button2 }}
+                        </a>
+                    </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+            <div class="halo-column-image-with-text-overlay__item">
+                {% for block in section.blocks %}
+                    {% assign img_url = block.settings.image | img_url: 'master' %}
+                    {% assign img_url_2 = block.settings.image | img_url: '340x' %}
+                    {% assign thecycle = forloop.index | modulo:2 %}
+                    {% if thecycle == 0 %}
+                        <div class="image-with-text-overlay image--hover overlay--{{ block.settings.overlay }} text-center">
+                            <div class="image-with-text-overlay__image">
+                                {% if block.settings.image != blank %}
+                                    <img class="lazyload"
+                                        data-srcset="{{ img_url_2 }} 180w, {{ img_url }} 768w"
+                                        data-sizes="auto" alt="" data-image>
+                                {% else %}
+                                    <span class="recommended_size">Free size</span>
+                                    {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                                {% endif %}
+                                {% if block.settings.link_url != blank %}
+                                    <a href="{{ block.settings.link_url }}" aria-label="link"></a>
+                                {% endif %}
+                            </div>
+                            <div class="image-with-text-overlay__content">
+                                {% if block.settings.title != blank %}
+                                    <h3 class="title">{{ block.settings.title }}</h3>
+                                {% endif %}
+                                {% if block.settings.link != blank %}
+                                    <a href="{{ block.settings.link_url }}" class="link" aria-label="link">{{ block.settings.link }}</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                {% if thecycle == 0 %}
+                    {% if section.settings.button2 != blank %}
+                    <div class="section-footer text-center">
+                        <a href="{{ section.settings.button_link2 }}" class="link" aria-label="link">
+                            {{ section.settings.button2 }}
+                        </a>
+                    </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% schema %}
+{
+    "name": "Image With Text Overlay",
+    "max_blocks": 20,
+    "settings": [
+        {
+            "type": "header",
+            "content": "Section Layout"
+        },
+        {
+            "type": "checkbox",
+            "id": "background-color",
+            "label": "Background Color Custom",
+            "default": false
+        },
+        {
+            "type": "checkbox",
+            "id": "border-top",
+            "label": "show border top",
+            "default": false
+        },
+        {
+            "type": "checkbox",
+            "id": "border-bottom",
+            "label": "show border bottom",
+            "default": false
+        },
+        {
+            "type": "range",
+            "id": "top",
+            "label": "Spacing Top",
+            "default": 30,
+            "min": 0,
+            "max": 100,
+            "step": 10,
+            "unit": "px"
+        },
+        {
+            "type": "range",
+            "id": "bottom",
+            "label": "Spacing bottom",
+            "default": 30,
+            "min": 0,
+            "max": 100,
+            "step": 10,
+            "unit": "px"
+        },
+        {
+            "type": "header",
+            "content": "Heading Section"
+        },
+        {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "Image With Text"
+        },
+        {
+            "type": "textarea",
+            "id": "description",
+            "label": "Description"
+        },
+        {
+            "type": "text",
+            "id": "button",
+            "label": "Button"
+        },
+        {
+            "type": "url",
+            "id": "button_link",
+            "label": "Button link"
+        },
+        {
+            "type": "header",
+            "content": "Footer Section"
+        },
+        {
+            "type": "text",
+            "id": "button2",
+            "label": "Button"
+        },
+        {
+            "type": "url",
+            "id": "button_link2",
+            "label": "Button link"
+        },
+        {
+            "type": "header",
+            "content": "Custom Color"
+        },
+        {
+            "type": "checkbox",
+            "id": "custom_color",
+            "label": "Turn on custom color",
+            "default": false
+        },
+        {
+            "type": "color",
+            "id": "color_heading",
+            "label": "Heading Color"
+        },
+        {
+            "type": "color",
+            "id": "color_text",
+            "label": "Description Color"
+        },
+        {
+            "type": "color",
+            "id": "color_btn_text",
+            "label": "Button Color"
+        },
+        {
+            "type": "color",
+            "id": "color_btn_border",
+            "label": "Button Border Color"
+        },
+        {
+            "type": "color",
+            "id": "color_btn_bg",
+            "label": "Button Background Color"
+        }
+    ],
+    "blocks": [
+        {
+            "type": "image_item",
+            "name": "Another image",
+            "settings": [
+                {
+                    "type": "select",
+                    "id": "overlay",
+                    "label": "Content",
+                    "default": "light",
+                    "options": [
+                        {
+                            "label": "Dark",
+                            "value": "dark"
+                        },
+                        {
+                            "label": "Light",
+                            "value": "light"
+                        }
+                    ]
+                },
+                {
+                    "type": "image_picker",
+                    "id": "image",
+                    "label": "Image"
+                },
+                {
+                    "type": "text",
+                    "id": "title",
+                    "label": "Title",
+                    "default": "Image With Text"
+                },
+                {
+                    "type": "text",
+                    "id": "link",
+                    "label": "Link Text",
+                    "default": "shop now"
+                },
+                {
+                    "type": "url",
+                    "id": "link_url",
+                    "label": "Link Url(Optional)"
+                }
+            ]
+        }
+    ],
+    "presets": [
+        {
+            "name": "Image With Text Overlay",
+            "category": "Images",
+            "blocks": [
+                {
+                    "type": "image_item"
+                },
+                {
+                    "type": "image_item"
+                },
+                {
+                    "type": "image_item"
+                },
+                {
+                    "type": "image_item"
+                }
+            ]
+        }
+    ]
+}
+{% endschema %}

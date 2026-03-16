@@ -1,0 +1,138 @@
+.page-full-width .page-container .container {
+    max-width: 1620px;
+}
+
+.alert {
+    border-radius: 0;
+}
+
+.alert-warning p {
+    color: inherit;
+}
+
+.btn--tertiary,
+.btn--tertiary:hover {
+    min-width: 0;
+}
+
+.section-header > .btn {
+    min-width: 0;
+    margin-top: 15px;
+} 
+
+.loginTitle {
+    font-size: 18px;
+}
+
+.loginTitle--border {
+    padding-bottom: 12px;
+    border-bottom: 2px solid #e6e6e6;
+    margin-bottom: 30px;
+}
+
+.loginDes {
+    margin-bottom: 30px;
+}
+
+.button-group {
+    position: relative;
+}
+
+.button-group--two {
+    font-size: 0;
+}
+
+.button-group--two .btn {
+    margin: 0;
+    min-width: 120px;
+}
+
+.button-group--two .btn + .btn {
+    margin-left: 15px;
+}
+
+.btn--big {
+    min-width: 150px;
+}
+
+.halo-column__item {
+    margin: 0;
+}
+
+.btn--return {
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.btn--delete {
+    color: #ffffff;
+    border-color: #e13f3f;
+    background-color: #e13f3f;
+}
+.btn--delete:hover {
+    color: #ffffff;
+    filter: brightness(85%);
+}
+
+.newCustomer--wrapper {
+    padding: 15px;
+    background-color: #fafafa;
+}
+
+.form-vertical [type="radio"], .form-vertical [type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    -webkit-appearance: checkbox;
+    -moz-appearance: checkbox;
+    appearance: checkbox;
+}
+
+hr {
+    border-bottom: 2px solid #e6e6e6;
+}
+
+@media (min-width: 551px) {
+    .newCustomer--wrapper,
+    .contact-infomation {
+        padding: 30px;
+    }
+
+    #CustomerLoginForm,
+    #RecoverPasswordForm {
+        padding-top: 30px;
+    }
+
+    .loginTitle {
+        font-size: 20px;
+    }
+}
+
+@media (min-width: 1025px) {
+    .newCustomer--wrapper {
+        padding: 70px;
+    }
+
+    #CustomerLoginForm,
+    #RecoverPasswordForm {
+        padding-top: 70px;
+    }
+
+    .page-login {
+        min-height: calc(100vh - 175px);
+    }
+
+    .btn--big {
+        min-width: 170px;
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+
+    .btn--big2 {
+        min-width: 270px;
+    }
+
+    .halo-column__item {
+        margin: 0;
+    }
+}

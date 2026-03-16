@@ -1,0 +1,612 @@
+<!-- filepath: c:\Users\fiend\Documents\scraper\a.html -->
+{% comment %} 
+    Featured Projects Slider Block
+    Usage:
+    {% assign slides = [ 
+    { 
+    left: { 
+    image: 'left1.jpg', 
+    caption: "PROJECT POINT LOMA<br>BY POPIX DESIGNS", 
+    small_images: ['left1a.jpg', 'left1b.jpg'] 
+    }, 
+    right: { 
+    image: 'right1.jpg', 
+    caption: "PROJECT LA QUINTA<br>BY A NABER DESIGN", 
+    small_images: ['right1a.jpg', 'right1b.jpg'] 
+    } 
+    }, 
+    { 
+    left: { 
+    image: 'left2.jpg', 
+    caption: "PROJECT DEL MAR<br>BY XYZ DESIGN", 
+    small_images: ['left2a.jpg', 'left2b.jpg'] 
+    }, 
+    right: { 
+    image: 'right2.jpg', 
+    caption: "PROJECT CORONADO<br>BY ABC DESIGN", 
+    small_images: ['right2a.jpg', 'right2b.jpg'] 
+    } 
+    }
+    ] %}
+    {% include 'featured-projects-slider', slides: slides %} 
+{% endcomment %}
+
+{% schema %}
+  {
+    "name": "Featured Projects Slider",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Section Title",
+        "default": "FEATURED PROJECTS"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "slide",
+        "name": "Slide",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "left_big_image",
+            "label": "Left Big Image"
+          },
+          {
+            "type": "image_picker",
+            "id": "left_small_image_1",
+            "label": "Left Small Image 1"
+          },
+          {
+            "type": "image_picker",
+            "id": "left_small_image_2",
+            "label": "Left Small Image 2"
+          },
+          {
+            "type": "text",
+            "id": "left_caption",
+            "label": "Left Caption",
+            "default": "PROJECT POINT LOMA<br>BY POPIX DESIGNS"
+          },
+          {
+            "type": "url",
+            "id":"left_link",
+            "label": "Left link"
+          },
+          {
+            "type": "text",
+            "id": "right_caption",
+            "label": "Right Caption",
+            "default": "PROJECT LA QUINTA<br>BY A NABER DESIGN"
+          },
+          {
+            "type": "image_picker",
+            "id": "right_big_image",
+            "label": "Right Big Image"
+          },
+          {
+            "type": "image_picker",
+            "id": "right_small_image_1",
+            "label": "Right Small Image 1"
+          },
+          {
+            "type": "image_picker",
+            "id": "right_small_image_2",
+            "label": "Right Small Image 2"
+          },
+          {
+            "type": "url",
+            "id":"right_link",
+            "label": "Right link"
+          }
+        ]
+      }
+    ],
+    "max_blocks": 10,
+    "presets": [
+      {
+        "name": "Featured Projects Slider",
+        "category": "Custom"
+      }
+    ]
+  }
+{% endschema %}
+
+<style>
+  .fp-body {
+    background: #b19a7a;
+    margin: 0;
+    color: #fff;
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+  .fp-container {
+    width: 90vw;
+    margin: 40px auto;
+  }
+  .fp-title {
+    font-size: 3em;
+    letter-spacing: 0.05em;
+    margin-bottom: 40px;
+    font-family: Athena-Regular;
+    max-width:1160px;
+    margin-left:auto;
+    margin-right:auto;
+    padding:0 35px;
+  }
+  .fp-projects {
+    display: flex;
+    gap: 100px;
+    justify-content: center;
+    padding:0 20px;
+  }
+  .fp-project-group {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 30px;
+  }
+  .fp-big-block,
+  .fp-big-block-2 {
+    width: 320px;
+    height: auto;
+    background: #fff;
+    object-fit: cover;
+    display: block;
+  }
+  .fp-small-blocks,
+  .fp-small-blocks-2 {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .fp-small-block {
+    width: 150px;
+    height: auto;
+    background: #fff;
+    object-fit: cover;
+    display: block;
+  }
+  .fp-small-blocks {
+    margin-top: 32px;
+  }
+  .fp-caption {
+    margin-top: 0;
+    font-size: 1em;
+    color: #fff;
+    opacity: 0.8;
+  }
+  .fp-caption.right {
+    text-align: left;
+  }
+  .fp-slider {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    max-width:1200px;
+    margin:auto;
+  }
+  .fp-slides {
+    display: flex;
+    transition: transform 0.5s ease;
+    width: 100%;
+  }
+  .fp-slide {
+    /* min-width: 100%; */
+    box-sizing: border-box;
+  }
+  .fp-slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0);
+    color: #fff;
+    border: none;
+    font-size: 2em;
+    cursor: pointer;
+    z-index: 2;
+    padding: 0 15px;
+    border-radius: 5px;
+  }
+  .fp-slider-btn.left {
+    left: 10px;
+  }
+  .fp-slider-btn.right {
+    right: 10px;
+  }
+  .fp-project-group-left .fp-caption {
+    margin-top: 10px;
+  }
+
+  .fp-body .slick-list{
+    padding:0 20px;
+  }
+  .slick-arrow{
+    font-size:30px;
+    color:#fff !important;
+    width: 30px;
+  }
+  .slick-prev {
+    left: 0 !important;
+  }
+  .slick-next {
+    right: 0 !important;
+  }
+  /* Mobile styles */
+  @media (max-width: 900px) {
+    .fp-title {
+      font-size: 2em;
+      padding: 0 40px;
+    }
+    .fp-projects {
+      flex-direction: column;
+      gap: 0;
+      align-items: center;
+      padding:0;
+    }
+    .fp-slide {
+      /* min-width: 100vw; */
+      padding: 0 22px 40px;
+    }
+    .fp-caption {
+      /* display:none; */
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+    .fp-big-block,
+    .fp-big-block-2 {
+      width: 100%;
+       
+      height: auto;
+    }
+    .fp-small-block {
+      width: 100vw;
+      
+      max-width: 120px;
+      height: auto;
+    }
+    .fp-project-group {
+      flex-direction: row;
+      gap: 20px;
+      justify-content: center;
+    }
+    .fp-small-blocks,
+    .fp-small-blocks-2 {
+      margin-top: 0;
+      display:none;
+      gap: 10px;
+    }
+    /* Hide right group on mobile */
+    .fp-group-desktop {
+      display: none;
+    }
+    .fp-group-mobile {
+      display: block;
+    }
+    .fp-project-group-right>div:first-child{
+      display: flex;
+      flex-direction: column-reverse;
+    }
+  }
+  @media (min-width: 901px) {
+    .fp-group-desktop {
+      display: block;
+    }
+    .fp-group-mobile {
+      display: none;
+    }
+  }
+</style>
+
+<div class="fp-body">
+  <div class="fp-container">
+    <div class="fp-title">{{ section.settings.title }}</div>
+    {% comment %}
+      
+    <div class="fp-slider">
+      <button class="fp-slider-btn left" style="display:none">&#8592;</button>
+      <button class="fp-slider-btn right">&#8594;</button>
+      <div class="fp-slides">
+        {% for block in section.blocks %}
+          <!-- Desktop: both groups in one slide -->
+          <div class="fp-slide fp-group-desktop">
+            <div class="fp-projects">
+              <!-- Left group -->
+              <div>
+                <div class="fp-project-group">
+                  {% if block.settings.left_big_image != blank %}
+                    <img
+                      class="fp-big-block"
+                      src="{{ block.settings.left_big_image | img_url: 'master' }}"
+                      alt="">
+                  {% else %}
+                    <div class="fp-big-block"></div>
+                  {% endif %}
+                  <div class="fp-small-blocks">
+                    {% if block.settings.left_small_image_1 != blank %}
+                      <img
+                        class="fp-small-block"
+                        src="{{ block.settings.left_small_image_1 | img_url: 'master' }}"
+                        alt="">
+                    {% else %}
+                      <div class="fp-small-block"></div>
+                    {% endif %}
+                    {% if block.settings.left_small_image_2 != blank %}
+                      <img
+                        class="fp-small-block"
+                        src="{{ block.settings.left_small_image_2 | img_url: 'master' }}"
+                        alt="">
+                    {% else %}
+                      <div class="fp-small-block"></div>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="fp-caption">{{ block.settings.left_caption }}</div>
+              </div>
+              <!-- Right group -->
+              <div>
+                <div class="fp-project-group">
+                  <div>
+                    <div class="fp-caption right" style="margin-bottom:10px;">{{ block.settings.right_caption }}</div>
+                    {% if block.settings.right_big_image != blank %}
+                      <img
+                        class="fp-big-block-2"
+                        src="{{ block.settings.right_big_image | img_url: 'master' }}"
+                        alt="">
+                    {% else %}
+                      <div class="fp-big-block-2"></div>
+                    {% endif %}
+                  </div>
+                  <div class="fp-small-blocks-2">
+                    {% if block.settings.right_small_image_1 != blank %}
+                      <img
+                        class="fp-small-block"
+                        src="{{ block.settings.right_small_image_1 | img_url: 'master' }}"
+                        alt="">
+                    {% else %}
+                      <div class="fp-small-block"></div>
+                    {% endif %}
+                    {% if block.settings.right_small_image_2 != blank %}
+                      <img
+                        class="fp-small-block"
+                        src="{{ block.settings.right_small_image_2 | img_url: 'master' }}"
+                        alt="">
+                    {% else %}
+                      <div class="fp-small-block"></div>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Mobile: left group slide -->
+          <div class="fp-slide fp-group-mobile">
+            <div class="fp-projects">
+              <div>
+                <div class="fp-project-group">
+                  {% if block.settings.left_big_image != blank %}
+                    <img
+                      class="fp-big-block"
+                      src="{{ block.settings.left_big_image | img_url: 'master' }}"
+                      alt="">
+                  {% else %}
+                    <div class="fp-big-block"></div>
+                  {% endif %}
+                  <div class="fp-small-blocks">
+                    {% if block.settings.left_small_image_1 != blank %}
+                      <img
+                        class="fp-small-block"
+                        src="{{ block.settings.left_small_image_1 | img_url: 'master' }}"
+                        alt="">
+                    {% else %}
+                      <div class="fp-small-block"></div>
+                    {% endif %}
+                    {% if block.settings.left_small_image_2 != blank %}
+                      <img
+                        class="fp-small-block"
+                        src="{{ block.settings.left_small_image_2 | img_url: 'master' }}"
+                        alt="">
+                    {% else %}
+                      <div class="fp-small-block"></div>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="fp-caption">{{ block.settings.left_caption }}</div>
+              </div>
+            </div>
+          </div>
+          <!-- Mobile: right group slide -->
+          <div class="fp-slide fp-group-mobile">
+            <div class="fp-projects">
+              <div>
+                <div class="fp-project-group">
+                  <div>
+                    <div class="fp-caption right" style="margin-bottom:10px;">{{ block.settings.right_caption }}</div>
+                    {% if block.settings.right_big_image != blank %}
+                      <img
+                        class="fp-big-block-2"
+                        src="{{ block.settings.right_big_image | img_url: 'master' }}"
+                        alt="">
+                    {% else %}
+                      <div class="fp-big-block-2"></div>
+                    {% endif %}
+                  </div>
+                  <div class="fp-small-blocks-2">
+                    {% if block.settings.right_small_image_1 != blank %}
+                      <img
+                        class="fp-small-block"
+                        src="{{ block.settings.right_small_image_1 | img_url: 'master' }}"
+                        alt="">
+                    {% else %}
+                      <div class="fp-small-block"></div>
+                    {% endif %}
+                    {% if block.settings.right_small_image_2 != blank %}
+                      <img
+                        class="fp-small-block"
+                        src="{{ block.settings.right_small_image_2 | img_url: 'master' }}"
+                        alt="">
+                    {% else %}
+                      <div class="fp-small-block"></div>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endcomment %}
+
+    <div class="fp-slider">
+      <div class="fp-slides" data-slick='{
+  "rows": 0,
+  "rtl": false,
+  "dots": false,
+  "arrows": true,
+  "infinite": true,
+  "adaptiveHeight": true,
+  "slidesToShow": 2,
+  "slidesToScroll": 1,
+  "prevArrow": "<div class=\"slick-prev slick-arrow slick-arrow--large\">&#8592;</div>",
+  "nextArrow": "<div class=\"slick-next slick-arrow slick-arrow--large\">&#8594;</div>",
+  "responsive": [
+    {
+      "breakpoint": 901,
+      "settings": {
+        "slidesToShow": 1,
+        "slidesToScroll": 1
+      }
+    }
+  ]
+}'
+>
+        {% for block in section.blocks %}
+          <!-- Desktop: both groups in one slide -->
+          <div class="fp-slide">
+            <a href="{{ block.settings.left_link }}" class="fp-projects">
+              <!-- Left group -->
+              <div>
+                <div class="fp-project-group fp-project-group-left">
+                  <div>
+                    {% if block.settings.left_big_image != blank %}
+                      <img
+                        class="fp-big-block"
+                        src="{{ block.settings.left_big_image | img_url: 'master' }}"
+                        alt="">
+                    {% else %}
+                      <div class="fp-big-block"></div>
+                    {% endif %}
+                    <div class="fp-caption">{{ block.settings.left_caption }}</div>
+                  </div>
+                  <div class="fp-small-blocks">
+                    {% if block.settings.left_small_image_1 != blank %}
+                      <img
+                        class="fp-small-block"
+                        src="{{ block.settings.left_small_image_1 | img_url: 'master' }}"
+                        alt="">
+                    {% else %}
+                      <div class="fp-small-block"></div>
+                    {% endif %}
+                    {% if block.settings.left_small_image_2 != blank %}
+                      <img
+                        class="fp-small-block"
+                        src="{{ block.settings.left_small_image_2 | img_url: 'master' }}"
+                        alt="">
+                    {% else %}
+                      <div class="fp-small-block"></div>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="fp-slide">
+            <a href="{{ block.settings.right_link }}" class="fp-projects">
+              <!-- Right group -->
+              <div>
+                <div class="fp-project-group fp-project-group-right">
+                  <div>
+                    <div class="fp-caption right" style="margin-bottom:10px;">{{ block.settings.right_caption }}</div>
+                    {% if block.settings.right_big_image != blank %}
+                      <img
+                        class="fp-big-block-2"
+                        src="{{ block.settings.right_big_image | img_url: 'master' }}"
+                        alt="">
+                    {% else %}
+                      <div class="fp-big-block-2"></div>
+                    {% endif %}
+                  </div>
+                  <div class="fp-small-blocks-2">
+                    {% if block.settings.right_small_image_1 != blank %}
+                      <img
+                        class="fp-small-block"
+                        src="{{ block.settings.right_small_image_1 | img_url: 'master' }}"
+                        alt="">
+                    {% else %}
+                      <div class="fp-small-block"></div>
+                    {% endif %}
+                    {% if block.settings.right_small_image_2 != blank %}
+                      <img
+                        class="fp-small-block"
+                        src="{{ block.settings.right_small_image_2 | img_url: 'master' }}"
+                        alt="">
+                    {% else %}
+                      <div class="fp-small-block"></div>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    
+  </div>
+  {% comment %}
+    
+  
+  <script>
+    const slides = document.querySelector('.fp-slides');
+    const allSlides = document.querySelectorAll('.fp-slide');
+    let slideCount = allSlides.length;
+    let currentIndex = 0;
+    const leftBtn = document.querySelector('.fp-slider-btn.left');
+    const rightBtn = document.querySelector('.fp-slider-btn.right');
+    
+    function updateArrows() {
+      leftBtn.style.display = currentIndex === 0 ? 'none' : '';
+      rightBtn.style.display = currentIndex === slideCount - 1 ? 'none' : '';
+    }
+    
+    leftBtn.onclick = () => {
+      if (currentIndex > 0) {
+        currentIndex = (currentIndex - 1 + slideCount) % slideCount;
+        slides.style.transform = `translateX(-${currentIndex * 100}%)`;
+        updateArrows();
+      }
+    };
+    rightBtn.onclick = () => {
+      if (currentIndex < slideCount - 1) {
+        currentIndex = (currentIndex + 1) % slideCount;
+        slides.style.transform = `translateX(-${currentIndex * 100}%)`;
+        updateArrows();
+      }
+    };
+    
+    updateArrows();
+    
+    // Optional: update slideCount on resize if you dynamically hide/show slides
+    window.addEventListener('resize', () => {
+      slideCount = document.querySelectorAll('.fp-slide').length;
+      if (currentIndex >= slideCount) {
+        currentIndex = slideCount - 1;
+        slides.style.transform = `translateX(-${currentIndex * 100}%)`;
+      }
+      updateArrows();
+    });
+  </script>
+  {% endcomment %}
+</div>

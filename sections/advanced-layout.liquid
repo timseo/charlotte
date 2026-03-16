@@ -1,0 +1,42 @@
+<div class="halo-section " data-section-id="{{ section.id }}" data-section-type="advanced_layout">
+  <div class="container">
+  	{{ section.settings.advanced_layout_html }}
+  </div>
+</div>
+
+<style type="text/css">
+  {{ section.settings.advanced_layout_css }}
+</style>
+
+{% schema %}
+  {
+	"class" : "advanced-layout",
+    "name": "Advanced layout",
+    "settings": [
+		{	
+			"type": "header",
+			"content": "HTML code"
+		},
+        {
+            "type": "textarea",
+            "id": "advanced_layout_html",
+            "label": "HTML code"
+        },
+		{	
+			"type": "header",
+			"content": "CSS code"
+		},
+        {
+            "type": "textarea",
+            "id": "advanced_layout_css",
+            "label": "CSS code"
+        }
+	],
+	"presets": [
+        {
+            "name": "Advanced layout",
+            "category": "Advanced layout"
+        }
+    ]
+  }
+{% endschema %}

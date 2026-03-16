@@ -1,0 +1,109 @@
+<section class="cc-contact-split">
+  <div class="container">
+    <div class="row justify-content-between">
+
+      <!-- IMAGE -->
+  
+
+      <!-- FORM -->
+<div class="col-12 col-sm-6 col-lg-6 mb-5" style="margin:0 auto; text-align:center;">
+  <div class="form-vertical" style="display:inline-block; text-align:left;">
+
+          <h4 class="cc-contact-h4">Please Do Get In Touch!</h4>
+          <p class="mb-4">
+            I’d love to hear from you – please use the form below to send me any questions or comments
+            or simply email me at
+            <a href="mailto:cl@charlottelea.com">cl@charlottelea.com</a>
+          </p>
+
+          {%- assign formId = 'ContactForm' -%}
+          {% form 'contact', id: formId %}
+            {% render 'form-status', form_id: formId, form: form %}
+
+            <!-- NAME -->
+            <label for="{{ formId }}-name" class="form-label">
+              {{ 'contact.form.name' | t }}
+            </label>
+            <input
+              type="text"
+              id="{{ formId }}-name"
+              name="contact[name]"
+              value="{% if form[name] %}{{ form[name] }}{% elsif customer %}{{ customer.name }}{% endif %}"
+              class="form-control"
+            >
+
+            <!-- PHONE -->
+            <label for="{{ formId }}-phone" class="form-label">
+              {{ 'contact.form.phone' | t }}
+            </label>
+            <input
+              type="tel"
+              id="{{ formId }}-phone"
+              name="contact[phone]"
+              pattern="[0-9\-]*"
+              value="{% if form[phone] %}{{ form[phone] }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+              class="form-control"
+            >
+
+            <!-- EMAIL -->
+            <label for="{{ formId }}-email" class="form-label">
+              {{ 'contact.form.email' | t }} <em>*</em>
+            </label>
+            <input
+              type="email"
+              id="{{ formId }}-email"
+              name="contact[email]"
+              class="form-control"
+              autocapitalize="off"
+              value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+              aria-required="true"
+              {% if form.errors contains 'email' %}
+                aria-invalid="true"
+                aria-describedby="{{ formId }}-email-error"
+              {% endif %}
+            >
+
+            {% if form.errors contains 'email' %}
+              <span id="{{ formId }}-email-error" class="input-error-message">
+                {{ form.errors.translated_fields['email'] | capitalize }}
+                {{ form.errors.messages['email'] }}.
+              </span>
+            {% endif %}
+
+            <!-- MESSAGE -->
+            <label for="{{ formId }}-message" class="form-label">
+              {{ 'contact.form.message' | t }} <em>*</em>
+            </label>
+            <textarea
+              rows="4"
+              id="{{ formId }}-message"
+              name="contact[body]"
+              class="form-control"
+            >{% if form.body %}{{ form.body }}{% endif %}</textarea>
+
+            <!-- SUBMIT -->
+            <input
+              type="submit"
+              class="btn btn--primary btn--large mt-3"
+              value="{{ 'contact.submit.button' | t }}"
+            >
+          {% endform %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Contact split (hardcoded)",
+  "settings": [],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "Contact split"
+    }
+  ]
+}
+{% endschema %}

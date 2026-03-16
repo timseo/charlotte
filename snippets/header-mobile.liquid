@@ -1,0 +1,63 @@
+<div class="header-mobile">
+    <div class="header-mobile__item text-left">
+        <div class="item__mobile item__mobile--hamburger">
+            <a class="mobileMenu-toggle" href="javascript:void(0)" data-mobile-menu aria-label="menu">
+                <span class="mobileMenu-toggle__Icon"></span>
+            </a>
+        </div>
+        {% if section.settings.enable-header-search %}
+        <div class="item__mobile item__mobile--searchMobile">
+            <a class="navUser-action" href="javascript:void(0)" data-search-popup aria-label="search">
+                <svg class="icon icon-search"><use xlink:href="#icon-search" /></svg>
+                <svg class="icon icon-close"><use xlink:href="#icon-close" /></svg>
+            </a>
+        </div>
+        {% endif %}
+    </div>
+    <div class="header-mobile__item text-center">
+        <div class="item__mobile item__mobile--logo">
+        </div>
+    </div>
+    <div class="header-mobile__item text-right">
+        {% if shop.customer_accounts_enabled and section.settings.enable-header-account %}
+            <div class="item__mobile item__mobile--account">
+                {% if pagename == 'customers-register' or pagename == 'customers-login' or pagename == 'customers-account' or pagename == 'customers-addresses' or pagename == 'customers-activate_account' or pagename == 'customers-order' or pagename == 'customers-reset_password' %}
+                    {% if customer %}
+                        <a class="navUser-action" href="{{ routes.account_url }}" aria-label="account">
+                            <svg class="icon"><use xlink:href="#icon-user" /></svg>
+                        </a>
+                    {% else %}
+                        <a class="navUser-action" href="{{ routes.account_login_url }}" aria-label="account">
+                            <svg class="icon"><use xlink:href="#icon-user" /></svg>
+                        </a>
+                    {% endif %}
+                {% else %}
+                    {% if customer %}
+                        <a class="navUser-action" href="{{ routes.account_url }}" aria-label="account">
+                            <svg class="icon"><use xlink:href="#icon-user" /></svg>
+                        </a>
+                    {% else %}
+                        <a class="navUser-action" href="{{ routes.account_login_url }}" data-mobile-login aria-label="account">
+                            <svg class="icon"><use xlink:href="#icon-user" /></svg>
+                        </a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        {% endif %}
+        {% if section.settings.enable-header-cart %}
+        <div class="item__mobile item__mobile--cart">
+            {% if pagename == 'cart' %}
+                <a class="navUser-action" href="{{ routes.cart_url }}" data-mobile-cart aria-label="cart">
+                    <svg class="icon"><use xlink:href="#icon-cart" /></svg>
+                    <span class="countPill cart-quantity" data-cart-count>{{ cart.item_count }}</span>
+                </a>
+            {% else %}
+                <a class="navUser-action" href="javascript:void(0)" data-mobile-cart aria-label="cart">
+                    <svg class="icon"><use xlink:href="#icon-cart" /></svg>
+                    <span class="countPill cart-quantity" data-cart-count>{{ cart.item_count }}</span>
+                </a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>

@@ -1,0 +1,34 @@
+<div id="sizeChart-modal" class="modal">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h2 class="modal-title">{{ 'products.product.sizeChart' | t }}</h2>
+                <a href="javascript:void(0)" aria-label="close" title="close" class="close">&#215;</a>
+            </div>
+            <div class="modal-body">
+                <div class="size-chart-img text-center">
+                    {% if section.settings.size_chart == 'product_vendor' %}          
+                        {% capture img_vendor %}
+                            {{ product.vendor | handle | append: '-sizechart.jpg' | file_url }}
+                        {% endcapture %}
+                        <img src="{{ img_vendor }}" alt="{{ section.settings.custom_size_chart_header }}"/>
+                    
+                    {% elsif section.settings.size_chart == 'product_type' %}          
+                        {% capture img_type %}
+                            {{ product.type | handle | append: '-sizechart.jpg' | file_url }}
+                        {% endcapture %}
+                        <img src="{{ img_type }}" alt="{{ section.settings.custom_size_chart_header }}"/>
+                    
+                    {% elsif section.settings.size_chart == 'different' %} 
+                        {% if product.metafields.halo['sizechart'] != blank %}
+                            {{ product.metafields.halo['sizechart'] }}
+                        {% endif %}
+
+                    {% elsif section.settings.size_chart == 'none' %} 
+                        <img src="{{ section.settings.custom_size_chart | img_url: 'original' }}" alt=""/>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+<div class="sidebarBlock">
+    {% if block.settings.title != blank %}
+    <h3 class="sidebarBlock__heading">{{ block.settings.title }}</h3>
+    {% endif %}
+    <div class="sidebarBlock__content">
+        <div class="recentposts-list">
+            {% for article in blog.articles limit : block.settings.number %}
+                <div class="item">
+                    <div class="recentpost">
+                        <p class="date">{{ article.published_at | date: "%B %d, %Y" }}</em>
+                        <h5 class="title"><a href="{{ article.url }}" aria-label="link">{{ article.title }}</a></h5>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

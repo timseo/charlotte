@@ -1,0 +1,109 @@
+{% comment %}
+    The contents of the product.liquid template can be found in /sections/product-template.liquid
+{% endcomment %}
+
+{% render 'product-layout-bundle-2' %}
+
+<script>
+    // Override default values of shop.strings for each template.
+    // Alternate product templates can change values of
+    // add to cart button, sold out, and unavailable states here.
+    theme.productStrings = {
+        addToCart: {{ 'products.product.add_to_cart' | t | json }},
+        soldOut: {{ 'products.product.sold_out' | t | json }},
+        unavailable: {{ 'products.product.unavailable' | t | json }}
+    }
+</script>
+
+{% assign current_variant = product.selected_or_first_available_variant %}
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org/",
+    "@type": "Product",
+    "name": {{ product.title | json }},
+    "url": {{ shop.url | append: product.url | json }},
+    {%- if product.featured_image -%}
+        {%- assign image_size = product.featured_image.width | append: 'x' -%}
+        "image": [
+            {{ product.featured_image.src | img_url: image_size | prepend: "https:" | json }}
+        ],
+    {%- endif -%}
+    "description": {{ product.description | strip_html | json }},
+    {%- if current_variant.sku != blank -%}
+        "sku": {{ current_variant.sku | json }},
+    {%- endif -%}
+    "brand": {
+        "@type": "Thing",
+        "name": {{ product.vendor | json }}
+    },
+    "offers": [
+        {%- for variant in product.variants -%}
+            {
+                "@type" : "Offer",
+                {%- if variant.sku != blank -%}
+                    "sku": {{ variant.sku | json }},
+                {%- endif -%}
+                "availability" : "http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}",
+                "price" : {{ variant.price | divided_by: 100.00 | json }},
+                "priceCurrency" : {{ cart.currency.iso_code | json }},
+                "url" : {{ shop.url | append: variant.url | json }}
+            }{% unless forloop.last %},{% endunless %}
+        {%- endfor -%}
+    ]
+}
+</script>
+<!-- Begin Shopify-Afterpay JavaScript Snippet (v1.0.10) -->
+<script type="text/javascript">
+// Overrides:
+// var afterpay_min = 0.04;            // As per your Afterpay contract.
+// var afterpay_max = 2000.00;         // As per your Afterpay contract.
+// var afterpay_cbt_enabled = false;   // As per your Afterpay contract; change to true to display Cross-Border Trade artwork (for AU/NZ).
+// var afterpay_logo_theme = 'colour'; // Can be 'colour', 'black' or 'white'.
+// var afterpay_product_selector = '#product-price-selector';
+// var afterpay_cart_integration_enabled = true;
+// var afterpay_cart_static_selector = '#cart-subtotal-selector';
+
+// Non-editable fields:
+// var afterpay_shop_currency = {{ shop.currency | json }};
+// var afterpay_cart_currency = {{ cart.currency.iso_code | json }};
+// var afterpay_shop_money_format = {{ shop.money_format | json }};
+// var afterpay_shop_permanent_domain = {{ shop.permanent_domain | json }};
+// var afterpay_theme_name = {{ theme.name | json }};
+// var afterpay_product = {{ product | json }};
+// var afterpay_current_variant = {{ product.selected_or_first_available_variant | json }};
+// var afterpay_cart_total_price = {{ cart.total_price | json }};
+// var afterpay_js_snippet_version = '1.0.10';
+</script>
+<script type="text/javascript" src="https://static.afterpay.com/shopify-afterpay-javascript.js"></script>
+<!-- End Shopify-Afterpay JavaScript Snippet (v1.0.10) -->
+
+<!-- Klaviyo Web Tracking -->
+<script type="text/javascript">
+  var _learnq = _learnq || [];
+
+  var item = {
+    Name: {{ product.title|json }},
+    ProductID: {{ product.id|json }},
+    Categories: {{ product.collections|map:'title'|json }},
+    ImageURL: "https:{{ product.featured_image.src|img_url:'grande' }}",
+    URL: "{{ shop.secure_url }}{{ product.url }}",
+    Brand: {{ product.vendor|json }},
+    Price: {{ product.price|money|json }},
+    CompareAtPrice: {{ product.compare_at_price_max|money|json }}
+  };
+
+  _learnq.push(['track', 'Viewed Product', item]);
+  _learnq.push(['trackViewedItem', {
+    Title: item.Name,
+    ItemId: item.ProductID,
+    Categories: item.Categories,
+    ImageUrl: item.ImageURL,
+    Url: item.URL,
+    Metadata: {
+      Brand: item.Brand,
+      Price: item.Price,
+      CompareAtPrice: item.CompareAtPrice
+    }
+  }]);
+</script>

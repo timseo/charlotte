@@ -1,0 +1,100 @@
+{% if section.settings.enable_product_show_more %}
+<div class="halo-section" data-section-type="product-add-more" data-section-id="{{ section.id }}">
+    <div class="product__collection_more">
+        {% if section.settings.collection_title != blank %}
+            <div class="section-header text-center">
+                <h2 class="title">{{ section.settings.collection_title }}</h2>
+            </div>
+        {% endif %}
+        {% if section.settings.collection_more != blank %}
+        <div class="halo-row column-{{ section.settings.column }}"
+            data-slick-pc data-slick='{
+                "rows": 0,
+                "rtl": false,
+                "dots": true,
+                "arrows": true,
+                "infinite": false,
+                "adaptiveHeight": true,
+                "slidesToShow": {{ section.settings.column }},
+                "slidesToScroll": 1,
+                "prevArrow": "<div class=&apos;slick-prev slick-arrow&apos;><svg class=&apos;icon&apos;><use xlink:href=&apos;#icon-chevron-left&apos; /></svg></div>", 
+                "nextArrow": "<div class=&apos;slick-next slick-arrow&apos;><svg class=&apos;icon&apos;><use xlink:href=&apos;#icon-chevron-right&apos; /></svg></div>"
+            }'>
+            {% for product in collections[section.settings.collection_more].products limit: section.settings.limit %}
+                <div class="halo-row__item">
+                    {% render 'product-card-grid' with product as product, serial: forloop.index %}
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<script type="text/javascript">
+    var elems = $("[data-section-type='product-add-more'] .halo-row .halo-row__item");
+    if (elems.length) {
+        var j, x, i;
+        for (i = elems.length - 1; i > 0; i--) {
+            j = Math.floor(Math.random() * (i + 1));
+            x = $( elems[i] ).html();
+            $( elems[i] ).html( $( elems[j] ).html() );
+            $( elems[j] ).html( x );
+        }
+    }
+</script>
+{% endif %}
+
+{% schema %}
+{
+    "name": "Complete The Look",
+    "settings": [
+        {
+            "type": "header",
+            "content": "Complete The Look"
+        },
+        {
+            "type": "checkbox",
+            "id": "enable_product_show_more",
+            "label": "Enable Complete The Look?",
+            "default": true
+        },
+        {
+            "type": "header",
+            "content": "Settings"
+        },
+        {
+            "type": "text",
+            "id": "collection_title",
+            "label": "Title",
+            "default": "Complete The Look"
+        },
+        {
+            "type": "collection",
+            "id": "collection_more",
+            "label": "Collection Show"
+        },
+        {
+            "type": "header",
+            "content": "Products layout"
+        },
+        {
+            "type": "range",
+            "id": "column",
+            "label": "Column show",
+            "min": 1,
+            "max": 5,
+            "step": 1,
+            "default": 2
+        },
+        {
+            "type": "range",
+            "id": "limit",
+            "label": "Limit product",
+            "min": 1,
+            "max": 20,
+            "step": 1,
+            "default": 5
+        }
+    ]
+}
+{% endschema %}

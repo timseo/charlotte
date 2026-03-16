@@ -1,0 +1,229 @@
+{%- if comment.status == 'pending' -%}
+    {%- assign number_of_comments = article.comments_count | plus: 1 -%}
+{%- else -%}
+    {%- assign number_of_comments = article.comments_count -%}
+{%- endif -%}
+
+<div class="sidebar_mobile_wrapper">
+    <div class="sidebar_mobile">
+        <span class='text'>{{ 'general.sidebar.title' | t }}:</span>
+        <svg class="icon"><use xlink:href="#icon-sidebar" /></svg>
+    </div>
+</div>
+<article class="article">
+<!--     {% if article.image %}
+        <div class="article__image">
+            <a href="{{ article.url }}">
+                <img id="{{ img_id }}" srcset="{{ article.image | img_url: 'master' }}" alt="">
+            </a>
+        </div>
+    {% endif %} -->
+    <div class="article__content">
+        <div class="article__header">
+            <h2 class="article__title"><a href="{{ article.url }}">{{ article.title }}</a></h2>
+            <h5 class="article__meta">
+                {% if section.settings.blog_show_date %}
+                    <span class="article__meta--item article__date"> {{ article.published_at | time_tag: format: 'date' }}</span>
+                {% endif %}
+                {% if section.settings.blog_show_author %}
+                    <span class="article__meta--item article__author">{{ 'blogs.article.by_author' | t: author: article.author }}</span>
+                {% endif %}
+                {% if number_of_comments > 0 %}
+                    <span class="article__meta--item article__comment">{{ 'blogs.comments.comments_with_count' | t: count: number_of_comments }}</span>
+                {% endif %}
+            </h5>
+        </div>
+        <div class="article__body">
+            <div class="rte">
+                {{ article.content }}
+            </div>
+            <div class="article__body--wrapper"> 
+                {% if article.tags.size > 0 %}
+                    <div class="article__body--left">
+                        <ul class="tags">
+                            <li class="tags__item tags__title">
+                                <h4>{{ 'blogs.article.tags' | t }}:</h4>
+                            </li>
+                            {% for tag in article.tags %}
+                                <li class="tags__item">
+                                    <a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+                {% if section.settings.show_share_buttons %}
+                    <div class="article__body--right">
+                        <div class="social-sharing">
+                            <div class="addthis_inline_share_toolbox"></div>
+                            <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-595b0ea2fb9c5869"></script>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        {% if blog.next_article or blog.previous_article %}
+            <div class="article__pagination">
+                <div class="article__pagination--item text-left">
+                    <a class="btn btn--secondary btn--prev" href="{{ blog.previous_article }}" {% unless blog.previous_article %}disabled{% endunless %}>
+                        <span class="text"> {{ 'blogs.article.older_post' | t }}</span>
+                    </a>
+                </div>
+                <div class="article__pagination--item text-right">
+                    <a class="btn btn--secondary btn--next" href="{{ blog.next_article }}" {% unless blog.next_article %}disabled{% endunless %}>
+                        <span class="text">{{ 'blogs.article.newer_post' | t }} </span>
+                    </a>
+                </div>
+            </div> 
+        {% endif %}
+        {% if blog.comments_enabled? %}
+            {% if number_of_comments > 0 %}
+                <div class="comments-wrapper">
+                    {% paginate article.comments by 5 %}
+                    <div class="section-header text-left">
+                        <h2 class="title">{{ 'blogs.comments.comments_with_count' | t: count: number_of_comments }}</h2>
+                    </div>
+                    <ul class="list-comments" id="comments">
+                        {% for comment in article.comments %}
+                            <li id="{{ comment.id }}" class="comment{% unless number_of_comments > article.comments_count %}{% if forloop.first %} first{% endif %}{% endunless %}{% if forloop.last %} last {% endif %}">
+                                {% render 'comment', comment: comment %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                    {% if paginate.pages > 1 %}
+                        {% render 'pagination', paginate: paginate %}
+                    {% endif %}
+
+                    {% endpaginate %}
+                </div>
+            {% endif %}
+            <div class="comment-form form-vertical">
+                {% form 'new_comment', article %}
+
+                    {%- assign formId = 'CommentForm' -%}
+                    <div class="section-header text-left">
+                        <h2 class="title">{{ 'blogs.comments.title' | t }}</h2>
+                    </div>
+
+                    {%- assign post_message = 'blogs.comments.success' -%}
+                    {%- if blog.moderated? and comment.status == 'pending' -%}
+                        {%- assign post_message = 'blogs.comments.success_moderated' -%}
+                    {%- elsif comment.status == 'unapproved' or comment.status == 'spam' -%}
+                        {%- assign post_message = 'blogs.comments.unapproved' -%}
+                    {%- endif -%}
+
+                    {% render 'form-status', form: form, form_id: formId, success_message: post_message %}
+
+                    <div class="halo-column column-2">
+
+                        <div class="halo-column__item">
+                            <label for="{{ formId }}-author" class="form-label">{{ 'blogs.comments.name' | t }}</label>
+                            <input type="text" name="comment[author]" id="{{ formId }}-author" class="input-full form-control{% if form.errors contains 'author' %} input--error{% endif %}" value="{{ form.author }}"{% if form.errors contains 'author' %} aria-invalid="true" aria-describedby="{{ formId}}-author-error"{% endif %}>
+                            {% if form.errors contains 'author' %}
+                                <span id="{{ formId}}-author-error" class="input-error-message"><svg class="icon"><use xlink:href="#icon-error" /></svg> {{ 'blogs.comments.name' | t }} {{ form.errors.messages['author'] }}.</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="halo-column__item">
+                            <label for="{{ formId }}-email" class="form-label">{{ 'blogs.comments.email' | t }}</label>
+                            <input type="email" name="comment[email]" id="{{ formId }}-email" class="input-full form-control{% if form.errors contains 'email' %} input--error{% endif %}" value="{{ form.email }}" autocapitalize="off" {% if form.errors contains 'email' %} aria-invalid="true" aria-describedby="{{ formId}}-email-error"{% endif %} >
+                            {% if form.errors contains 'email' %}
+                                <span id="{{ formId}}-email-error" class="input-error-message"><svg class="icon"><use xlink:href="#icon-error" /></svg> {{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}.</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="halo-column__item halo-column__item--full">
+                            <label for="{{ formId }}-body" class="form-label">{{ 'blogs.comments.message' | t }}</label>
+                            <textarea name="comment[body]" id="{{ formId }}-body" class="input-full form-control{% if form.errors contains 'body' %} input--error{% endif %}"{% if form.errors contains 'body' %} aria-invalid="true" aria-describedby="{{ formId}}-body-error"{% endif %}>{{ form.body }}</textarea>
+                            {% if form.errors contains 'body' %}
+                                <span id="{{ formId}}-body-error" class="input-error-message"><svg class="icon"><use xlink:href="#icon-error" /></svg> {{ 'blogs.comments.message' | t }} {{ form.errors.messages['body'] }}.</span>
+                            {% endif %}
+                        </div>
+
+                    </div>
+
+                    {% if blog.moderated? %}
+                        <p class="fine-print">{{ 'blogs.comments.moderated' | t }}</p>
+                    {% endif %}
+
+                    <input type="submit" class="btn btn--primary btn--large mt-4" value="{{ 'blogs.comments.post' | t }}">
+                {% endform %}
+            </div>
+        {% endif %}
+    </div>
+</article>
+
+<style>
+  .section-header h2.title{
+  	display: none;
+  }
+</style>
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "articleBody": {{ article.content | strip_html | json }},
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": {{ shop.url | append: page.url | json }}
+    },
+    "headline": {{ article.title | json }},
+    {% if article.excerpt != blank %}
+        "description": {{ article.excerpt | strip_html | json }},
+    {% endif %}
+    {% if article.image %}
+        {% assign image_size = article.image.width | append: 'x' %}
+        "image": [
+            {{ article | img_url: image_size | prepend: "https:" | json }}
+        ],
+    {% endif %}
+    "datePublished": {{ article.published_at | date: '%Y-%m-%dT%H:%M:%SZ' | json }},
+    "dateCreated": {{ article.created_at | date: '%Y-%m-%dT%H:%M:%SZ' | json }},
+    "author": {
+        "@type": "Person",
+        "name": {{ article.author | json }}
+    },
+    "publisher": {
+        "@type": "Organization",
+        {% if settings.share_image %}
+            {% assign image_size = settings.share_image.width | append: 'x' %}
+            "logo": {
+                "@type": "ImageObject",
+                "height": {{ settings.share_image.height | json }},
+                "url": {{ settings.share_image | img_url: image_size | prepend: "https:" | json }},
+                "width": {{ settings.share_image.width | json }}
+            },
+        {% endif %}
+        "name": {{ shop.name | json }}
+    }
+}
+</script>
+
+{% schema %}
+{
+    "name": "Blog Content",
+    "class": "page-content",
+    "settings": [
+        {
+            "type": "checkbox",
+            "id": "blog_show_author",
+            "label": "Show author",
+            "default": true
+        },
+        {
+            "type": "checkbox",
+            "id": "blog_show_date",
+            "label": "Show date",
+            "default": true
+        },
+        {
+            "type": "checkbox",
+            "id": "show_share_buttons",
+            "label": "Show social sharing buttons",
+            "default": true
+        }
+    ]
+}
+{% endschema %}

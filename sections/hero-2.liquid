@@ -1,0 +1,275 @@
+
+
+{% if section.settings.custom_color %}
+<style>
+
+    [data-section-id='{{ section.id }}'] .hero__subheading {
+        color: {{ section.settings.color_subheading }}
+    }
+
+    [data-section-id='{{ section.id }}'] .hero__heading {
+        color: {{ section.settings.color_heading }}
+    }
+
+    [data-section-id='{{ section.id }}'] .hero__text {
+        color: {{ section.settings.color_text }}
+    }
+
+    [data-section-id='{{ section.id }}'] .hero__text a {
+        color: {{ section.settings.color_text }}
+    }
+
+    [data-section-id='{{ section.id }}'] .hero__text a:before {
+        background-color: {{ section.settings.color_text }}
+    }
+
+    [data-section-id='{{ section.id }}'] .hero__button {
+        color: {{ section.settings.color_button_text }};
+        border-color: {{ section.settings.color_button_border }};
+        background-color: {{ section.settings.color_button_bg }};
+    }
+
+    [data-section-id='{{ section.id }}'] .hero__button:hover {
+        filter: brightness(85%);
+    }
+</style>
+{% endif %}
+
+<div class="halo-section" data-section-id="{{ section.id }}" data-section-type="hero-2">
+{% if section.settings.hero_layout == 'fixed_width' %}
+    <div class="container">
+{% else %}
+    <div class="container-fluid">
+{% endif %}
+        <div class="hero hero--2 hero--medium overlay--{{ section.settings.overlay }}">
+            <div class="hero__image">
+                {% if section.settings.image == blank %}
+                    <div class="hero__image_item">
+                        <div class="placeholder-background">
+                            <span class="recommended_size">880x770</span>
+                            {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                        </div>
+                    </div>
+                {% else %}
+                    {% assign img_url = section.settings.image | img_url: '880x' %}
+                    {% assign img_url_2 = section.settings.image | img_url: '360x' %}
+                    <div class="hero__image_item">
+                        <img class="hero__image--background lazyload" data-srcset="{{ img_url_2 }} 180w, {{ img_url }} 768w" alt="" data-image>
+                    </div>
+                {% endif %}
+                {% if section.settings.image2 == blank %}
+                    <div class="hero__image_item">
+                        <div class="placeholder-background">
+                            <span class="recommended_size">880x770</span>
+                            {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+                        </div>
+                    </div>
+                {% else %}
+                    {% assign img_url = section.settings.image2 | img_url: '880x' %}
+                    {% assign img_url_2 = section.settings.image | img_url: '360x' %}
+                    <div class="hero__image_item">
+                        <img class="hero__image--background lazyload" data-srcset="{{ img_url_2 }} 180w, {{ img_url }} 768w" alt="" data-image>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="hero__content content--{{ section.settings.content_layout }}">
+                {% if section.settings.sub_title != blank %}
+                    <h5 class="hero__subheading">
+                        {{ section.settings.sub_title }}
+                    </h5>
+                {% endif %}
+                {% if section.settings.title != blank %}
+                    <h2 class="hero__heading mega-title--{{ section.settings.text_size }}">
+                        {{ section.settings.title }}
+                    </h2>
+                {% endif %}
+                {% if section.settings.countdown != blank %}
+                    <div class="hero__countdownWrapper"><div class="hero__countdown" data-countdown="{{ section.settings.countdown }}"></div></div>
+                {% endif %}
+                {% if section.settings.text != blank %}
+                    <div class="hero__text">{{ section.settings.text }}</div>
+                {% endif %}
+                {% if section.settings.button != blank %}
+                    <div class="hero__button--wrapper">
+                        <a href="{{ section.settings.button_link }}" class="btn btn--secondary hero__button" aria-label="link">
+                            {{ section.settings.button }}
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% schema %}
+{
+    "name": "Image Full Width 2",
+    "settings": [
+        {
+            "type": "header",
+            "content": "Banner Image"
+        },
+        {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+        },
+        {
+            "type": "image_picker",
+            "id": "image2",
+            "label": "Image"
+        },
+        {
+            "type": "select",
+            "id": "hero_layout",
+            "label": "Layout",
+            "default": "fixed_width",
+            "options": [
+                {
+                    "label": "Full width",
+                    "value": "full_width"
+                },
+                {
+                    "label": "Fixed width",
+                    "value": "fixed_width"
+                }
+            ]
+        },
+        {
+            "type": "select",
+            "id": "overlay",
+            "label": "Overlays",
+            "default": "dark",
+            "options": [
+                {
+                    "label": "Dark",
+                    "value": "dark"
+                },
+                {
+                    "label": "Light",
+                    "value": "light"
+                }
+            ]
+        },
+        {
+            "type": "header",
+            "content": "Banner Content"
+        },
+        {
+            "type": "select",
+            "id": "content_layout",
+            "label": "layout",
+            "default": "middle",
+            "options": [
+                {
+                    "label": "left",
+                    "value": "left"
+                },
+                {
+                    "label": "Right",
+                    "value": "right"
+                },
+                {
+                    "label": "Middle",
+                    "value": "middle"
+                }
+            ]
+        },
+        {
+            "type": "select",
+            "id": "text_size",
+            "label": "Text size",
+            "default": "medium",
+            "options": [
+                {
+                    "label": "Medium",
+                    "value": "medium"
+                },
+                {
+                    "label": "Large",
+                    "value": "large"
+                }
+            ]
+        },
+        {
+            "type": "text",
+            "id": "sub_title",
+            "label": "Sub Heading"
+        },
+        {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "Banner with text overlay"
+        },
+        {
+            "type": "text",
+            "id": "countdown",
+            "label": "Time Countdown",
+            "info": "2020/12/12 0:0:00"
+        },
+        {
+            "type": "richtext",
+            "id": "text",
+            "label": "Text",
+            "default": "<p>Use overlay text to give your customers insight into your brand. Select image and text that relates to your style and story.</p>"
+        },
+        {
+            "type": "text",
+            "id": "button",
+            "label": "Button"
+        },
+        {
+            "type": "url",
+            "id": "button_link",
+            "label": "Button link"
+        },
+        {
+            "type": "header",
+            "content": "Custom Color"
+        },
+        {
+            "type": "checkbox",
+            "id": "custom_color",
+            "label": "Turn on custom color",
+            "default": false
+        },
+        {
+            "type": "color",
+            "id": "color_subheading",
+            "label": "Sub Heading Color"
+        },
+        {
+            "type": "color",
+            "id": "color_heading",
+            "label": "Heading Color"
+        },
+        {
+            "type": "color",
+            "id": "color_text",
+            "label": "Description Color"
+        },
+        {
+            "type": "color",
+            "id": "color_button",
+            "label": "Button Text Color"
+        },
+        {
+            "type": "color",
+            "id": "border_button",
+            "label": "Button Border Color"
+        },
+        {
+            "type": "color",
+            "id": "bg_button",
+            "label": "Button Background Color"
+        }
+    ],
+    "presets": [
+        {
+            "name": "Image Full Width 2",
+            "category": "Images"
+        }
+    ]
+}
+{% endschema %}

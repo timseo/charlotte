@@ -1,0 +1,27 @@
+<div class="item">
+	<a class="wrapper" href="{{ article.url }}">
+  		
+      	<div class="portfolio_image">
+          {% if article.image %}
+         	 {% assign img_url = article.image | img_url: 'master' %}
+          	 <img src="{{ img_url }}" alt="">
+          {% endif %}
+      	</div>
+      
+        <div class="text">
+          {% if section.settings.blog_show_author or section.settings.blog_show_date %}
+          	{% if section.settings.blog_show_date %}
+          		<p>on {{ article.published_at | time_tag: format: 'date' }}</p>
+          	{% endif %}
+          	{% if section.settings.blog_show_author %}
+          		<p>{{ 'blogs.article.by_author' | t: author: article.author }}</p>
+          	{% endif %}
+          	
+          {% endif %}
+          
+          <h3>{{ article.title }}</h3>
+        </div>
+        
+  	</a>
+
+</div>

@@ -237,7 +237,7 @@
                     </div>
                 {% endif %}
 
-                {% capture "form_classes" %}
+                {% capture form_classes %}
                     product-form product-form-{{ section.id }}
                     {%- unless section.settings.enable_variant_labels %} product-form--hide-variant-labels {% endunless %}
                     {%- if current_variant.available == false %} product-form--variant-sold-out {%- endif -%}
@@ -609,4 +609,13 @@
 	"name": {{ product.title | json }}
 }
 </script>
-{% endif %}
+{% endif %}{%- comment -%}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: '{% capture "form_classes" %}'
+  to: "{% capture form_classes %}"
+  position: 18247..18273
+{%- endcomment -%}

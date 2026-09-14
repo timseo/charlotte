@@ -30,7 +30,7 @@
               {% assign description = block.settings.description %}
     
               <div class="halo-row__item">
-                  {% render 'product-card-grid-slider' with img_url: img_url, title: title, description: description %}
+                  {% render 'product-card-grid-slider' with img_url, img_url: img_url, title: title, description: description %}
               </div>
     	{% endcase %}
     {% endfor %}
@@ -120,3 +120,15 @@
 
 {% javascript %}
 {% endjavascript %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{% render 'product-card-grid-slider' with img_url: img_url, title: title,
+    description: description %}"
+  to: "{% render 'product-card-grid-slider' with img_url, img_url: img_url, title:
+    title, description: description %}"
+  position: 1732..1842
+{% endcomment %}

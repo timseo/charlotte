@@ -216,7 +216,7 @@
                         </div>
                 {% endif %}
 
-                {% capture "form_classes" -%}
+                {% capture form_classes -%}
                     product-form product-form-{{ product.id }}
                     {%- if current_variant.available == false %} product-form--variant-sold-out {%- endif -%}
                 {%- endcapture %}
@@ -310,3 +310,13 @@
         {{ product | json }}
     </script>
 {% endunless %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: '{% capture "form_classes" -%}'
+  to: "{% capture form_classes -%}"
+  position: 16455..16482
+{% endcomment %}
